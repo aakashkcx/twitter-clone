@@ -1,0 +1,20 @@
+{
+    "name": "twitter-clone",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "server": "npm start --prefix server",
+        "server-dev": "npm run dev --prefix server",
+        "client": "npm start --prefix client"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aakashkcx/twitter-clone.git"
+    },
+    "author": "Aakash Kc",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/aakashkcx/twitter-clone/issues"
+    },
+    "homepage": "https://github.com/aakashkcx/twitter-clone#readme"
+}

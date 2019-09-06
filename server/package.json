@@ -1,0 +1,16 @@
+{
+    "name": "server",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "morgan": "^1.9.1",
+        "nedb": "^1.8.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.2"
+    }
+}
