@@ -6,7 +6,6 @@ import Tweets from './components/Tweets';
 
 class App extends Component {
     state = {
-        tweet: '',
         tweets: []
     };
 
@@ -17,26 +16,16 @@ class App extends Component {
             .catch(err => console.log(err));
     }
 
-    handleTweetChange = event => {
-        this.setState({ tweet: event.target.value });
-    };
-
-    handleTweetReset = event => {
-        this.setState({ tweet: '' });
-    };
-
-    handleTweetSubmit = event => {
-        event.preventDefault();
+    handleNewTweet = tweet => {
         axios
-            .post('/api/tweets', { tweet: this.state.tweet })
+            .post('/api/tweets', { tweet })
             .then(res =>
                 this.setState({ tweets: [res.data, ...this.state.tweets] })
             )
-            .catch(err => console.log(err))
-            .finally(() => this.setState({ tweet: '' }));
+            .catch(err => console.log(err));
     };
 
-    handleDelete = id => {
+    handleDeleteTweet = id => {
         axios
             .delete(`/api/tweets/${id}`)
             .then(res => {
@@ -52,15 +41,10 @@ class App extends Component {
             <React.Fragment>
                 <Navbar />
                 <div className="container">
-                    <Form
-                        tweet={this.state.tweet}
-                        handleTweetChange={this.handleTweetChange}
-                        handleTweetSubmit={this.handleTweetSubmit}
-                        handleTweetReset={this.handleTweetReset}
-                    />
+                    <Form handleNewTweet={this.handleNewTweet} />
                     <Tweets
                         tweets={this.state.tweets}
-                        handleDelete={this.handleDelete}
+                        handleDeleteTweet={this.handleDeleteTweet}
                     />
                 </div>
             </React.Fragment>

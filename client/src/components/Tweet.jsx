@@ -5,8 +5,8 @@ class Tweet extends Component {
         return (
             <li className="list-group-item">
                 <button
-                    onClick={() => {
-                        this.props.handleDelete(this.props.tweet._id);
+                    onClick={event => {
+                        this.props.handleDeleteTweet(this.props.tweet._id);
                     }}
                     className="close"
                     aria-label="Close"
