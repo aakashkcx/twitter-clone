@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Tweet from './Tweet';
 
 class Tweets extends Component {
     render() {
@@ -6,12 +7,7 @@ class Tweets extends Component {
             <div className="">
                 <ul className="list-group">
                     {this.props.tweets.map(tweet => (
-                        <li className="list-group-item">
-                            <p>{tweet.tweet}</p>
-                            <small className="float-right">
-                                {new Date(tweet.date).toLocaleString()}
-                            </small>
-                        </li>
+                        <Tweet tweet={tweet} />
                     ))}
                 </ul>
             </div>

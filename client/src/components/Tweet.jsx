@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 
 class Tweet extends Component {
-    state = {};
     render() {
-        return <h1>Tweet</h1>;
+        return (
+            <li className="list-group-item">
+                <p>{this.props.tweet.tweet}</p>
+                <small className="float-right text-muted">
+                    {new Date(this.props.tweet.date).toLocaleString(undefined, {
+                        dateStyle: 'medium',
+                        timeStyle: 'medium',
+                        hour12: 'false'
+                    })}
+                </small>
+            </li>
+        );
     }
 }
 
