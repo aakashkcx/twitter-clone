@@ -7,7 +7,11 @@ class Tweets extends Component {
             <div className="">
                 <ul className="list-group">
                     {this.props.tweets.map(tweet => (
-                        <Tweet tweet={tweet} />
+                        <Tweet
+                            key={tweet._id}
+                            tweet={tweet}
+                            handleDelete={this.props.handleDelete}
+                        />
                     ))}
                 </ul>
             </div>

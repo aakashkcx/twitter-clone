@@ -36,6 +36,17 @@ class App extends Component {
             .finally(() => this.setState({ tweet: '' }));
     };
 
+    handleDelete = id => {
+        axios
+            .delete(`/api/tweets/${id}`)
+            .then(res => {
+                this.setState({
+                    tweets: this.state.tweets.filter(tweet => tweet._id !== id)
+                });
+            })
+            .catch(err => console.log(err));
+    };
+
     render() {
         return (
             <React.Fragment>
@@ -47,7 +58,10 @@ class App extends Component {
                         handleTweetSubmit={this.handleTweetSubmit}
                         handleTweetReset={this.handleTweetReset}
                     />
-                    <Tweets tweets={this.state.tweets} />
+                    <Tweets
+                        tweets={this.state.tweets}
+                        handleDelete={this.handleDelete}
+                    />
                 </div>
             </React.Fragment>
         );
