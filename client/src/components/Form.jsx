@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Form extends Component {
     render() {
         return (
-            <div className="card mb-4">
+            <div className="card mb-4 bg-light">
                 <div className="card-body">
                     <form
                         onSubmit={this.props.handleTweetSubmit}
