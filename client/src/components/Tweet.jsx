@@ -4,6 +4,7 @@ class Tweet extends Component {
     render() {
         return (
             <li className="list-group-item">
+                <h6>{this.props.tweet.username}</h6>
                 <button
                     onClick={event => {
                         this.props.handleDeleteTweet(this.props.tweet._id);

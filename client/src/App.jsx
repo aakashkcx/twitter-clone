@@ -18,7 +18,7 @@ class App extends Component {
 
     handleNewTweet = tweet => {
         axios
-            .post('/api/tweets', { tweet })
+            .post('/api/tweets', tweet)
             .then(res =>
                 this.setState({ tweets: [res.data, ...this.state.tweets] })
             )

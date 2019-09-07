@@ -23,10 +23,12 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    if (!req.body.tweet) return res.sendStatus(400);
+    const { username, tweet } = req.body;
+    if (!(username && tweet)) return res.sendStatus(400);
 
     const newTweet = {
-        tweet: req.body.tweet,
+        username,
+        tweet,
         date: Date.now()
     };
 
