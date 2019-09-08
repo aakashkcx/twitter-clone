@@ -12,7 +12,7 @@ class App extends Component {
     componentDidMount() {
         axios
             .get('/api/tweets')
-            .then(res => this.setState({ tweets: res.data }))
+            .then(res => this.setState({ tweets: res.data.tweets }))
             .catch(err => console.log(err));
     }
 
@@ -20,7 +20,9 @@ class App extends Component {
         axios
             .post('/api/tweets', tweet)
             .then(res =>
-                this.setState({ tweets: [res.data, ...this.state.tweets] })
+                this.setState({
+                    tweets: [res.data.createdTweet, ...this.state.tweets]
+                })
             )
             .catch(err => console.log(err));
     };
