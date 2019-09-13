@@ -67,7 +67,7 @@ class Register extends Component {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div className="card mb-3">
+                <div className="card mb-3 bg-light">
                     <div className="card-body">
                         <h5 className="card-title">Register</h5>
                         <form
