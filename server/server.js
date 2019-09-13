@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use((req, res, next) => {
-    const token = req.header('x-auth-token');
+    const token = req.header('X-Auth-Token');
     req.auth = false;
     jwt.verify(token, 'secret', (err, decoded) => {
         if (!err) {

@@ -16,15 +16,24 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id', (req, res) => {
+    db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
+        if (err) return res.status(500).json({ err });
+        if (!user) return res.status(404).json({ msg: 'User not found.' });
+        res.status(200).json({ user });
+    });
+});
+
 router.post('/', (req, res) => {
     const { username, email, password } = req.body;
 
-    if (!(username && email && password)) return res.sendStatus(400);
+    if (!(username && email && password))
+        return res.status(400).json({ msg: 'Complete registration form.' });
 
     db.users.findOne({ $or: [{ username }, { email }] }, (err, user) => {
         if (err) return res.status(500).json(err);
 
-        if (user) return res.status(400).json({ msg: 'User already exists' });
+        if (user) return res.status(400).json({ msg: 'User already exists.' });
 
         bcrypt.hash(password, 10, (err, hash) => {
             if (err) return res.status(500).json(err);

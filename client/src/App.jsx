@@ -1,55 +1,116 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Register from './components/Register';
 import Form from './components/Form';
 import Tweets from './components/Tweets';
 
 class App extends Component {
     state = {
-        tweets: []
+        tweets: [],
+        token: '',
+        auth: false,
+        user: null
     };
 
     componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios
+                .get('/api/auth', { headers: { 'X-Auth-Token': token } })
+                .then(res => {
+                    this.setState({
+                        token,
+                        auth: true,
+                        user: res.data.user
+                    });
+                })
+                .catch(err => {
+                    localStorage.removeItem('token');
+                });
+        }
+
         axios
             .get('/api/tweets')
             .then(res => this.setState({ tweets: res.data.tweets }))
             .catch(err => console.log(err));
     }
 
-    handleNewTweet = tweet => {
-        axios
-            .post('/api/tweets', tweet)
-            .then(res =>
-                this.setState({
-                    tweets: [res.data.createdTweet, ...this.state.tweets]
-                })
-            )
-            .catch(err => console.log(err));
+    handleLogin = (token, user) => {
+        localStorage.setItem('token', token);
+        this.setState({
+            token,
+            auth: true,
+            user
+        });
     };
 
-    handleDeleteTweet = id => {
-        axios
-            .delete(`/api/tweets/${id}`)
-            .then(res => {
-                this.setState({
-                    tweets: this.state.tweets.filter(tweet => tweet._id !== id)
-                });
-            })
-            .catch(err => console.log(err));
+    handleLogout = () => {
+        localStorage.removeItem('token');
+        this.setState({
+            token: '',
+            auth: false,
+            user: null
+        });
+    };
+
+    handleRegister = (token, createdUser) => {
+        localStorage.setItem('token', token);
+        this.setState({
+            token,
+            auth: true,
+            user: createdUser
+        });
+    };
+
+    handleNewTweet = newTweet => {
+        this.setState({
+            tweets: [newTweet, ...this.state.tweets]
+        });
     };
 
     render() {
         return (
-            <React.Fragment>
-                <Navbar />
+            <Router>
+                <Navbar
+                    auth={this.state.auth}
+                    user={this.state.user}
+                    handleLogout={this.handleLogout}
+                />
                 <div className="container">
-                    <Form handleNewTweet={this.handleNewTweet} />
-                    <Tweets
-                        tweets={this.state.tweets}
-                        handleDeleteTweet={this.handleDeleteTweet}
+                    <Route
+                        exact
+                        path="/"
+                        render={props => (
+                            <React.Fragment>
+                                <Form
+                                    handleNewTweet={this.handleNewTweet}
+                                    token={this.state.token}
+                                    auth={this.state.auth}
+                                />
+                                <Tweets
+                                    tweets={this.state.tweets}
+                                    handleDeleteTweet={this.handleDeleteTweet}
+                                />
+                            </React.Fragment>
+                        )}
+                    />
+                    <Route
+                        path="/login"
+                        render={props => (
+                            <Login handleLogin={this.handleLogin} />
+                        )}
+                    />
+                    <Route
+                        path="/register"
+                        render={props => (
+                            <Register handleRegister={this.handleRegister} />
+                        )}
                     />
                 </div>
-            </React.Fragment>
+            </Router>
         );
     }
 }
