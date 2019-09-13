@@ -29,10 +29,11 @@ class Login extends Component {
                 this.setState({ redirect: true });
             })
             .catch(err => {
-                if (err.response.status === 400)
-                    this.setState({ msg: err.response.data.msg });
-                if (err.response.status === 500)
-                    this.setState({ msg: JSON.stringify(err.response.data) });
+                const { response } = err;
+                if (response.status === 400)
+                    this.setState({ msg: response.data.msg });
+                if (response.status === 500)
+                    this.setState({ msg: JSON.stringify(response.data) });
             });
     };
 
