@@ -128,7 +128,7 @@ class Register extends Component {
                         </form>
                         <div className="small text-muted mt-2">
                             Already have an account?{' '}
-                            <Link to="/register">Register</Link>
+                            <Link to="/register">Login</Link>
                         </div>
                     </div>
                 </div>
