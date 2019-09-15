@@ -6,11 +6,7 @@ class Tweets extends Component {
         return (
             <ul className="list-group">
                 {this.props.tweets.map(tweet => (
-                    <Tweet
-                        key={tweet._id}
-                        tweet={tweet}
-                        handleDeleteTweet={this.props.handleDeleteTweet}
-                    />
+                    <Tweet key={tweet._id} tweet={tweet} />
                 ))}
             </ul>
         );

@@ -11,10 +11,7 @@ class Dashboard extends Component {
                     token={this.props.token}
                     auth={this.props.auth}
                 />
-                <Tweets
-                    tweets={this.props.tweets}
-                    handleDeleteTweet={this.props.handleDeleteTweet}
-                />
+                <Tweets tweets={this.props.tweets} />
             </React.Fragment>
         );
     }
