@@ -20,7 +20,12 @@ router.get('/:id', (req, res) => {
     db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
         if (err) return res.status(500).json({ err });
         if (!user) return res.status(404).json({ msg: 'User not found.' });
-        res.status(200).json({ user });
+
+        db.tweets.count({ user_id: req.params.id }, (err, num) => {
+            if (err) return res.status(500).json({ err });
+            user.numTweets = num;
+            res.status(200).json({ user });
+        });
     });
 });
 
