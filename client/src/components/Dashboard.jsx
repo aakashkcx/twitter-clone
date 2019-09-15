@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from './Form';
-import Tweets from './Tweets';
+import Feed from './Feed';
 
 class Dashboard extends Component {
     render() {
@@ -11,7 +11,7 @@ class Dashboard extends Component {
                     token={this.props.token}
                     auth={this.props.auth}
                 />
-                <Tweets tweets={this.props.tweets} />
+                <Feed tweets={this.props.tweets} />
             </React.Fragment>
         );
     }
