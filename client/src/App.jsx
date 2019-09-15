@@ -8,7 +8,6 @@ import Register from './components/Register';
 
 class App extends Component {
     state = {
-        tweets: [],
         token: '',
         auth: false,
         user: null
@@ -33,11 +32,6 @@ class App extends Component {
                 })
                 .catch(err => localStorage.removeItem('token'));
         }
-
-        axios
-            .get('/api/tweets')
-            .then(res => this.setState({ tweets: res.data.tweets }))
-            .catch(err => console.log(err));
     }
 
     handleLogin = (token, user) => {
@@ -60,12 +54,6 @@ class App extends Component {
 
     handleRegister = this.handleLogin;
 
-    handleNewTweet = newTweet => {
-        this.setState({
-            tweets: [newTweet, ...this.state.tweets]
-        });
-    };
-
     render() {
         return (
             <Router>
@@ -81,11 +69,9 @@ class App extends Component {
                         render={routeProps => (
                             <Dashboard
                                 {...routeProps}
-                                handleNewTweet={this.handleNewTweet}
                                 token={this.state.token}
                                 auth={this.state.auth}
-                                tweets={this.state.tweets}
-                                handleDeleteTweet={this.handleDeleteTweet}
+                                user={this.state.user}
                             />
                         )}
                     />
