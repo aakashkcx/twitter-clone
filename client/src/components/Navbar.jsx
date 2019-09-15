@@ -3,40 +3,39 @@ import { Link, NavLink } from 'react-router-dom';
 
 class Navbar extends Component {
     getLinks = () => {
-        if (this.props.auth) {
+        if (this.props.auth === true) {
             return (
-                <React.Fragment>
-                    <span className="nav-item dropdown active">
+                <span className="nav-item dropdown active">
+                    <span
+                        className="nav-link dropdown-toggle"
+                        data-toggle="dropdown"
+                        style={{ cursor: 'pointer' }}
+                    >
+                        @{this.props.user.username}{' '}
+                    </span>
+                    <div className="dropdown-menu">
+                        <span className="dropdown-item disabled small">
+                            #{this.props.user._id}
+                        </span>
+                        <span className="dropdown-item disabled small">
+                            Joined:{' '}
+                            {new Date(this.props.user.date).toLocaleDateString(
+                                undefined,
+                                {
+                                    dateStyle: 'short'
+                                }
+                            )}
+                        </span>
+                        <div className="dropdown-divider"></div>
                         <span
-                            className="nav-link dropdown-toggle"
-                            data-toggle="dropdown"
+                            className="dropdown-item"
+                            onClick={this.props.handleLogout}
                             style={{ cursor: 'pointer' }}
                         >
-                            @{this.props.user.username}{' '}
+                            Logout
                         </span>
-                        <div className="dropdown-menu">
-                            <span className="dropdown-item disabled small">
-                                #{this.props.user._id}
-                            </span>
-                            <span className="dropdown-item disabled small">
-                                Joined:{' '}
-                                {new Date(
-                                    this.props.user.date
-                                ).toLocaleDateString(undefined, {
-                                    dateStyle: 'short'
-                                })}
-                            </span>
-                            <div class="dropdown-divider"></div>
-                            <span
-                                className="dropdown-item"
-                                onClick={this.props.handleLogout}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                Logout
-                            </span>
-                        </div>
-                    </span>
-                </React.Fragment>
+                    </div>
+                </span>
             );
         } else {
             return (

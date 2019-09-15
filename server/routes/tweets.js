@@ -1,6 +1,7 @@
 const express = require('express');
 
 const db = require('../database');
+const auth = require('../auth');
 
 const router = express.Router();
 
@@ -24,11 +25,9 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
     if (!req.auth) return res.status(401).json({ msg: 'Unauthorized.' });
-
-    const { tweet } = req.body;
-    if (!tweet) return res.status(400).json({ msg: 'Enter a tweet.' });
+    if (!req.body.tweet) return res.status(400).json({ msg: 'Enter a tweet.' });
 
     db.users.findOne({ _id: req.user_id }, { username: 1 }, (err, user) => {
         if (err) return res.status(500).json({ err });
@@ -37,7 +36,7 @@ router.post('/', (req, res) => {
         const newTweet = {
             user_id: req.user_id,
             username: user.username,
-            tweet,
+            tweet: req.body.tweet,
             date: Date.now()
         };
 

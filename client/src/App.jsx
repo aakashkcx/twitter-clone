@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/Navbar';
+import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
-import Form from './components/Form';
-import Tweets from './components/Tweets';
 
 class App extends Component {
     state = {
@@ -21,15 +20,18 @@ class App extends Component {
             axios
                 .get('/api/auth', { headers: { 'X-Auth-Token': token } })
                 .then(res => {
-                    this.setState({
-                        token,
-                        auth: true,
-                        user: res.data.user
-                    });
+                    axios
+                        .get(`/api/users/${res.data.user_id}`)
+                        .then(res => {
+                            this.setState({
+                                token,
+                                auth: true,
+                                user: res.data.user
+                            });
+                        })
+                        .catch(err => localStorage.removeItem('token'));
                 })
-                .catch(err => {
-                    localStorage.removeItem('token');
-                });
+                .catch(err => localStorage.removeItem('token'));
         }
 
         axios
@@ -56,14 +58,7 @@ class App extends Component {
         });
     };
 
-    handleRegister = (token, createdUser) => {
-        localStorage.setItem('token', token);
-        this.setState({
-            token,
-            auth: true,
-            user: createdUser
-        });
-    };
+    handleRegister = this.handleLogin;
 
     handleNewTweet = newTweet => {
         this.setState({
@@ -83,30 +78,33 @@ class App extends Component {
                     <Route
                         exact
                         path="/"
-                        render={props => (
-                            <React.Fragment>
-                                <Form
-                                    handleNewTweet={this.handleNewTweet}
-                                    token={this.state.token}
-                                    auth={this.state.auth}
-                                />
-                                <Tweets
-                                    tweets={this.state.tweets}
-                                    handleDeleteTweet={this.handleDeleteTweet}
-                                />
-                            </React.Fragment>
+                        render={routeProps => (
+                            <Dashboard
+                                {...routeProps}
+                                handleNewTweet={this.handleNewTweet}
+                                token={this.state.token}
+                                auth={this.state.auth}
+                                tweets={this.state.tweets}
+                                handleDeleteTweet={this.handleDeleteTweet}
+                            />
                         )}
                     />
                     <Route
                         path="/login"
-                        render={props => (
-                            <Login handleLogin={this.handleLogin} />
+                        render={routeProps => (
+                            <Login
+                                {...routeProps}
+                                handleLogin={this.handleLogin}
+                            />
                         )}
                     />
                     <Route
                         path="/register"
-                        render={props => (
-                            <Register handleRegister={this.handleRegister} />
+                        render={routeProps => (
+                            <Register
+                                {...routeProps}
+                                handleRegister={this.handleRegister}
+                            />
                         )}
                     />
                 </div>

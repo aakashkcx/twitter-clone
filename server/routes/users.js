@@ -37,7 +37,6 @@ router.post('/', (req, res) => {
 
     db.users.findOne({ $or: [{ username }, { email }] }, (err, user) => {
         if (err) return res.status(500).json(err);
-
         if (user) return res.status(400).json({ msg: 'User already exists.' });
 
         bcrypt.hash(password, 10, (err, hash) => {
@@ -60,8 +59,10 @@ router.post('/', (req, res) => {
                     (err, token) => {
                         if (err) return res.status(500).json(err);
 
-                        delete createdUser.password;
-                        res.status(201).json({ token, createdUser });
+                        res.status(201).json({
+                            token,
+                            user_id: createdUser._id
+                        });
                     }
                 );
             });

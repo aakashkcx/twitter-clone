@@ -31,15 +31,23 @@ class Register extends Component {
         axios
             .post('/api/users', register)
             .then(res => {
-                this.props.handleRegister(res.data.token, res.data.createdUser);
-                this.setState({ redirect: true });
+                const { token } = res.data;
+                axios
+                    .get(`/api/users/${res.data.user_id}`)
+                    .then(res => {
+                        this.props.handleRegister(token, res.data.user);
+                        this.setState({ redirect: true });
+                    })
+                    .catch(err => {
+                        if (err.response.status === 500)
+                            this.setState({ msg: 'Internal Server Error.' });
+                    });
             })
             .catch(err => {
-                const { response } = err;
-                if (response.status === 400)
-                    this.setState({ msg: response.data.msg });
-                if (response.status === 500)
-                    this.setState({ msg: JSON.stringify(response.data) });
+                if (err.response.status === 400)
+                    this.setState({ msg: err.response.data.msg });
+                if (err.response.status === 500)
+                    this.setState({ msg: 'Internal Server Error.' });
             });
     };
 

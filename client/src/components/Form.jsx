@@ -88,7 +88,10 @@ class Form extends Component {
                                         type="submit"
                                         value="Submit"
                                         className="btn btn-primary"
-                                        disabled={!this.props.auth}
+                                        disabled={
+                                            !this.props.auth ||
+                                            !this.state.tweet
+                                        }
                                     />
                                 </div>
                             </div>
