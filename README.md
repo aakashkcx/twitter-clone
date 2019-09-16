@@ -1,5 +1,17 @@
 # Twitter Clone
 
+Clone the git repository:
+
+```shell
+$ git clone https://github.com/aakashkcx/twitter-clone.git
+```
+
+Install dependencies with npm:
+
+```shell
+$ npm run install
+```
+
 Start the server:
 
 ```shell
