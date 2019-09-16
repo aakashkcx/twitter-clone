@@ -5,7 +5,7 @@ import axios from 'axios';
 class Tweet extends Component {
     state = {
         id: this.props.match.params.id,
-        tweet: false
+        tweet: {}
     };
 
     componentDidMount() {
@@ -15,7 +15,7 @@ class Tweet extends Component {
                 this.setState({ tweet: res.data.tweet });
             })
             .catch(err => {
-                console.log(err);
+                this.setState({ tweet: false });
             });
     }
 
