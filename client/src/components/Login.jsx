@@ -69,60 +69,52 @@ class Login extends Component {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div className="card mb-3 bg-light">
-                    <div className="card-body">
-                        <h5 className="card-title">Login</h5>
-                        <form
-                            onSubmit={this.handleSubmit}
-                            onReset={this.handleReset}
-                        >
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    value={this.state.username}
-                                    onChange={this.handleUsernameChange}
-                                    placeholder="Username"
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="password"
-                                    value={this.state.password}
-                                    onChange={this.handlePasswordChange}
-                                    placeholder="Password"
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
+                <div className="card card-body mb-3 bg-light">
+                    <h5 className="card-title">Login</h5>
+                    <form
+                        onSubmit={this.handleSubmit}
+                        onReset={this.handleReset}
+                    >
+                        <div className="form-group">
                             <input
-                                type="submit"
-                                value="Login"
-                                className="btn btn-primary"
-                                disabled={
-                                    !(
-                                        this.state.username &&
-                                        this.state.password
-                                    )
-                                }
+                                type="text"
+                                value={this.state.username}
+                                onChange={this.handleUsernameChange}
+                                placeholder="Username"
+                                className="form-control"
+                                required
                             />
-                            <input
-                                type="reset"
-                                value="Reset"
-                                className="btn btn-danger mx-2"
-                                disabled={
-                                    !(
-                                        this.state.username ||
-                                        this.state.password
-                                    )
-                                }
-                            />
-                        </form>
-                        <div className="small text-muted mt-2">
-                            Don't have an account?{' '}
-                            <Link to="/register">Register</Link>
                         </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                value={this.state.password}
+                                onChange={this.handlePasswordChange}
+                                placeholder="Password"
+                                className="form-control"
+                                required
+                            />
+                        </div>
+                        <input
+                            type="submit"
+                            value="Login"
+                            className="btn btn-primary"
+                            disabled={
+                                !(this.state.username && this.state.password)
+                            }
+                        />
+                        <input
+                            type="reset"
+                            value="Reset"
+                            className="btn btn-danger mx-2"
+                            disabled={
+                                !(this.state.username || this.state.password)
+                            }
+                        />
+                    </form>
+                    <div className="small text-muted mt-2">
+                        Don't have an account?{' '}
+                        <Link to="/register">Register</Link>
                     </div>
                 </div>
             </React.Fragment>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import User from './User';
 import Form from './Form';
 import Feed from './Feed';
 
@@ -20,11 +21,14 @@ class Dashboard extends Component {
         this.setState({
             tweets: [newTweet, ...this.state.tweets]
         });
+        this.props.handleNewTweet();
     };
 
     render() {
         return (
             <React.Fragment>
+                {this.props.auth && <User user={this.props.user} />}
+
                 <Form
                     handleNewTweet={this.handleNewTweet}
                     token={this.props.token}

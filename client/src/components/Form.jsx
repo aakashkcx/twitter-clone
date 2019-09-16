@@ -58,45 +58,42 @@ class Form extends Component {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div className="card mb-4 bg-light">
-                    <div className="card-body">
-                        <form
-                            onSubmit={this.handleSubmit}
-                            onReset={this.handleReset}
-                        >
-                            <textarea
-                                value={this.state.tweet}
-                                onChange={this.handleTweetChange}
-                                placeholder="Tweet ..."
-                                className="form-control form-control-lg"
-                                rows="4"
-                                required
-                            ></textarea>
-                            <div className="d-flex justify-content-between mt-3">
-                                <small className="text-muted">
-                                    {this.state.tweet.length} character
-                                    {this.state.tweet.length !== 1 && 's'}
-                                </small>
-                                <div>
-                                    <input
-                                        type="reset"
-                                        value="Reset"
-                                        className="btn btn-danger mx-2"
-                                        disabled={!this.state.tweet}
-                                    />
-                                    <input
-                                        type="submit"
-                                        value="Submit"
-                                        className="btn btn-primary"
-                                        disabled={
-                                            !this.props.auth ||
-                                            !this.state.tweet
-                                        }
-                                    />
-                                </div>
+                <div className="card card-body mb-4 bg-light">
+                    <form
+                        onSubmit={this.handleSubmit}
+                        onReset={this.handleReset}
+                    >
+                        <textarea
+                            value={this.state.tweet}
+                            onChange={this.handleTweetChange}
+                            placeholder="Tweet ..."
+                            className="form-control form-control-lg"
+                            rows="4"
+                            required
+                        ></textarea>
+                        <div className="d-flex justify-content-between mt-3">
+                            <small className="text-muted">
+                                {this.state.tweet.length} character
+                                {this.state.tweet.length !== 1 && 's'}
+                            </small>
+                            <div>
+                                <input
+                                    type="reset"
+                                    value="Reset"
+                                    className="btn btn-danger mx-2"
+                                    disabled={!this.state.tweet}
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    className="btn btn-primary"
+                                    disabled={
+                                        !this.props.auth || !this.state.tweet
+                                    }
+                                />
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </React.Fragment>
         );

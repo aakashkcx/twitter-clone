@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Tweets extends Component {
     render() {
         return (
-            <ul className="list-group">
+            <div className="list-group">
                 {this.props.tweets.map(tweet => (
-                    <li key={tweet._id} className="list-group-item">
+                    <Link
+                        key={tweet._id}
+                        to={`/tweet/${tweet._id}`}
+                        className="list-group-item list-group-item-action"
+                    >
                         <h6>@{tweet.username}</h6>
                         <p>{tweet.tweet}</p>
-                        <div className="d-flex justify-content-between">
-                            <small
-                                className="text-muted"
-                                style={{ fontSize: '0.7rem' }}
-                            >
-                                {tweet._id}
-                            </small>
-                            <small>
-                                {new Date(tweet.date).toLocaleString(
-                                    undefined,
-                                    {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'medium',
-                                        hour12: 'false'
-                                    }
-                                )}
-                            </small>
-                        </div>
-                    </li>
+                        <small className="float-right">
+                            {new Date(tweet.date).toLocaleString(undefined, {
+                                dateStyle: 'medium',
+                                timeStyle: 'medium',
+                                hour12: 'false'
+                            })}
+                        </small>
+                    </Link>
                 ))}
-            </ul>
+            </div>
         );
     }
 }

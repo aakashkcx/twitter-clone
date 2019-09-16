@@ -75,69 +75,67 @@ class Register extends Component {
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div className="card mb-3 bg-light">
-                    <div className="card-body">
-                        <h5 className="card-title">Register</h5>
-                        <form
-                            onSubmit={this.handleSubmit}
-                            onReset={this.handleReset}
-                        >
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    value={this.state.username}
-                                    onChange={this.handleUsernameChange}
-                                    placeholder="Username"
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="email"
-                                    value={this.state.email}
-                                    onChange={this.handleEmailChange}
-                                    placeholder="Email"
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    type="password"
-                                    value={this.state.password}
-                                    onChange={this.handlePasswordChange}
-                                    placeholder="Password"
-                                    className="form-control"
-                                />
-                            </div>
+                <div className="card card-body mb-3 bg-light">
+                    <h5 className="card-title">Register</h5>
+                    <form
+                        onSubmit={this.handleSubmit}
+                        onReset={this.handleReset}
+                    >
+                        <div className="form-group">
                             <input
-                                type="submit"
-                                value="Register"
-                                className="btn btn-primary"
-                                disabled={
-                                    !(
-                                        this.state.username &&
-                                        this.state.email &&
-                                        this.state.password
-                                    )
-                                }
+                                type="text"
+                                value={this.state.username}
+                                onChange={this.handleUsernameChange}
+                                placeholder="Username"
+                                className="form-control"
                             />
-                            <input
-                                type="reset"
-                                value="Reset"
-                                className="btn btn-danger mx-2"
-                                disabled={
-                                    !(
-                                        this.state.username ||
-                                        this.state.email ||
-                                        this.state.password
-                                    )
-                                }
-                            />
-                        </form>
-                        <div className="small text-muted mt-2">
-                            Already have an account?{' '}
-                            <Link to="/register">Login</Link>
                         </div>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                value={this.state.email}
+                                onChange={this.handleEmailChange}
+                                placeholder="Email"
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                value={this.state.password}
+                                onChange={this.handlePasswordChange}
+                                placeholder="Password"
+                                className="form-control"
+                            />
+                        </div>
+                        <input
+                            type="submit"
+                            value="Register"
+                            className="btn btn-primary"
+                            disabled={
+                                !(
+                                    this.state.username &&
+                                    this.state.email &&
+                                    this.state.password
+                                )
+                            }
+                        />
+                        <input
+                            type="reset"
+                            value="Reset"
+                            className="btn btn-danger mx-2"
+                            disabled={
+                                !(
+                                    this.state.username ||
+                                    this.state.email ||
+                                    this.state.password
+                                )
+                            }
+                        />
+                    </form>
+                    <div className="small text-muted mt-2">
+                        Already have an account?{' '}
+                        <Link to="/register">Login</Link>
                     </div>
                 </div>
             </React.Fragment>

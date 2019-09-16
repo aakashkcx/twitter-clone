@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
+import Tweet from './components/Tweet';
 
 class App extends Component {
     state = {
@@ -55,6 +56,15 @@ class App extends Component {
 
     handleRegister = this.handleLogin;
 
+    handleNewTweet = () => {
+        this.setState({
+            user: {
+                ...this.state.user,
+                numTweets: this.state.user.numTweets + 1
+            }
+        });
+    };
+
     render() {
         return (
             <Router>
@@ -64,40 +74,57 @@ class App extends Component {
                     handleLogout={this.handleLogout}
                 />
                 <div className="container">
-                    <Route
-                        exact
-                        path="/"
-                        render={routeProps => (
-                            <Dashboard
-                                {...routeProps}
-                                token={this.state.token}
-                                auth={this.state.auth}
-                                user={this.state.user}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/login"
-                        render={routeProps => (
-                            <Login
-                                {...routeProps}
-                                handleLogin={this.handleLogin}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/register"
-                        render={routeProps => (
-                            <Register
-                                {...routeProps}
-                                handleRegister={this.handleRegister}
-                            />
-                        )}
-                    />
+                    <Switch>
+                        <Route
+                            exact
+                            path="/"
+                            render={routeProps => (
+                                <Dashboard
+                                    {...routeProps}
+                                    token={this.state.token}
+                                    auth={this.state.auth}
+                                    user={this.state.user}
+                                    handleNewTweet={this.handleNewTweet}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/login"
+                            render={routeProps => (
+                                <Login
+                                    {...routeProps}
+                                    handleLogin={this.handleLogin}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/register"
+                            render={routeProps => (
+                                <Register
+                                    {...routeProps}
+                                    handleRegister={this.handleRegister}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/tweet/:id"
+                            render={routeProps => <Tweet {...routeProps} />}
+                        />
+                        <Route component={NoMatch} />
+                    </Switch>
                 </div>
             </Router>
         );
     }
 }
+
+const NoMatch = ({ location }) => (
+    <div className="card card-body bg-light">
+        <h1>404 Not Found</h1>
+        <p>
+            No match for <code>"{location.pathname}"</code>.
+        </p>
+    </div>
+);
 
 export default App;
