@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
 import Login from './components/Login';
 import Register from './components/Register';
 import Tweet from './components/Tweet';
@@ -109,6 +110,10 @@ class App extends Component {
                         <Route
                             path="/tweet/:id"
                             render={routeProps => <Tweet {...routeProps} />}
+                        />
+                        <Route
+                            path="/user/:id"
+                            render={routeProps => <Profile {...routeProps} />}
                         />
                         <Route component={NoMatch} />
                     </Switch>

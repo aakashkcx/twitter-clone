@@ -25,12 +25,8 @@ class Tweet extends Component {
             <React.Fragment>
                 <button
                     type="button"
-                    className="btn btn-secondary btn-lg mb-4"
+                    className="back-button mb-4"
                     onClick={() => window.history.back()}
-                    style={{
-                        textDecoration: 'none',
-                        padding: '4px 16px'
-                    }}
                 >
                     &#8249;
                 </button>
@@ -38,7 +34,10 @@ class Tweet extends Component {
                     {this.state.tweet ? (
                         <React.Fragment>
                             <h3 className="mb-4">
-                                <Link to="/" className="text-body">
+                                <Link
+                                    to={`/user/${tweet.user_id}`}
+                                    className="text-body"
+                                >
                                     @{tweet.username}
                                 </Link>
                             </h3>

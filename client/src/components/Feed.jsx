@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class Tweets extends Component {
+class Feed extends Component {
     render() {
         return (
             <div className="list-group">
@@ -27,4 +27,4 @@ class Tweets extends Component {
     }
 }
 
-export default Tweets;
+export default Feed;

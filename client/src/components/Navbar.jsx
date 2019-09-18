@@ -27,6 +27,13 @@ class Navbar extends Component {
                             )}
                         </span>
                         <div className="dropdown-divider"></div>
+                        <Link
+                            to={`/user/${this.props.user._id}`}
+                            className="dropdown-item"
+                        >
+                            Profile
+                        </Link>
+                        <div className="dropdown-divider"></div>
                         <span
                             className="dropdown-item"
                             onClick={this.props.handleLogout}
