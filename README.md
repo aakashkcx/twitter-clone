@@ -15,7 +15,7 @@ $ npm run install
 Start the server:
 
 ```shell
-   $ npm run sever
+$ npm run sever
 ```
 
 or `npm run sever-dev`
@@ -23,5 +23,5 @@ or `npm run sever-dev`
 Start the client:
 
 ```shell
-   $ npm run client
+$ npm run client
 ```
