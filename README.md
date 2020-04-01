@@ -1,5 +1,7 @@
 # Twitter Clone
 
+## Installation
+
 Clone the git repository:
 
 ```shell
@@ -25,3 +27,17 @@ Start the client:
 ```shell
 $ npm run client
 ```
+
+## Images
+
+#### Dashboard
+
+![Dashboard](https://i.imgur.com/wY83bnT.png)
+
+#### Tweet
+
+![Tweet](https://i.imgur.com/mVbIZzz.png)
+
+#### Profile
+
+![Profile](https://i.imgur.com/pwgEy5c.png)
