@@ -13,6 +13,7 @@ app.use(morgan('tiny'));
 app.use('/auth', require('./routes/auth'));
 app.use('/users', require('./routes/users'));
 app.use('/tweets', require('./routes/tweets'));
+app.use('/likes', require('./routes/likes'));
 app.use('', (req, res) => res.sendStatus(404));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
