@@ -8,42 +8,42 @@ class Register extends Component {
         email: '',
         password: '',
         msg: '',
-        redirect: false
+        redirect: false,
     };
 
-    handleUsernameChange = event => {
+    handleUsernameChange = (event) => {
         this.setState({ username: event.target.value });
     };
 
-    handleEmailChange = event => {
+    handleEmailChange = (event) => {
         this.setState({ email: event.target.value });
     };
 
-    handlePasswordChange = event => {
+    handlePasswordChange = (event) => {
         this.setState({ password: event.target.value });
     };
 
-    handleSubmit = event => {
+    handleSubmit = (event) => {
         event.preventDefault();
         const { username, email, password } = this.state;
         const register = { username, email, password };
 
         axios
-            .post('/api/users', register)
-            .then(res => {
+            .post('/users', register)
+            .then((res) => {
                 const { token } = res.data;
                 axios
-                    .get(`/api/users/${res.data.user_id}`)
-                    .then(res => {
+                    .get(`/users/${res.data.user_id}`)
+                    .then((res) => {
                         this.props.handleRegister(token, res.data.user);
                         this.setState({ redirect: true });
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         if (err.response.status === 500)
                             this.setState({ msg: 'Internal Server Error.' });
                     });
             })
-            .catch(err => {
+            .catch((err) => {
                 if (err.response.status === 400)
                     this.setState({ msg: err.response.data.msg });
                 if (err.response.status === 500)
@@ -51,7 +51,7 @@ class Register extends Component {
             });
     };
 
-    handleReset = event => {
+    handleReset = (event) => {
         event.preventDefault();
         this.setState({ username: '', email: '', password: '', msg: '' });
     };

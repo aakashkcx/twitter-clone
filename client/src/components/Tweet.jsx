@@ -5,16 +5,16 @@ import axios from 'axios';
 class Tweet extends Component {
     state = {
         id: this.props.match.params.id,
-        tweet: {}
+        tweet: {},
     };
 
     componentDidMount() {
         axios
-            .get(`/api/tweets/${this.state.id}`)
-            .then(res => {
+            .get(`/tweets/${this.state.id}`)
+            .then((res) => {
                 this.setState({ tweet: res.data.tweet });
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({ tweet: false });
             });
     }
@@ -52,7 +52,7 @@ class Tweet extends Component {
                                         {
                                             dateStyle: 'medium',
                                             timeStyle: 'medium',
-                                            hour12: 'false'
+                                            hour12: 'false',
                                         }
                                     )}
                                 </h6>

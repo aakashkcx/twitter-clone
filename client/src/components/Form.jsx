@@ -4,29 +4,29 @@ import axios from 'axios';
 class Form extends Component {
     state = {
         tweet: '',
-        msg: ''
+        msg: '',
     };
 
-    handleTweetChange = event => {
+    handleTweetChange = (event) => {
         this.setState({ tweet: event.target.value });
     };
 
-    handleSubmit = event => {
+    handleSubmit = (event) => {
         event.preventDefault();
         const { tweet } = this.state;
         axios
             .post(
-                '/api/tweets',
+                '/tweets',
                 { tweet },
                 {
-                    headers: { 'X-Auth-Token': this.props.token }
+                    headers: { 'X-Auth-Token': this.props.token },
                 }
             )
-            .then(res => {
+            .then((res) => {
                 this.props.handleNewTweet(res.data.createdTweet);
                 this.setState({ tweet: '', msg: '' });
             })
-            .catch(err => {
+            .catch((err) => {
                 const { response } = err;
                 if (response.status === 400 || response.status === 401)
                     this.setState({ msg: response.data.msg });
@@ -35,7 +35,7 @@ class Form extends Component {
             });
     };
 
-    handleReset = event => {
+    handleReset = (event) => {
         event.preventDefault();
         this.setState({ tweet: '' });
     };

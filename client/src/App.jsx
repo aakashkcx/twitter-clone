@@ -13,27 +13,27 @@ class App extends Component {
     state = {
         token: '',
         auth: false,
-        user: null
+        user: null,
     };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
         if (token) {
             axios
-                .get('/api/auth', { headers: { 'X-Auth-Token': token } })
-                .then(res => {
+                .get('/auth', { headers: { 'X-Auth-Token': token } })
+                .then((res) => {
                     axios
-                        .get(`/api/users/${res.data.user_id}`)
-                        .then(res => {
+                        .get(`/users/${res.data.user_id}`)
+                        .then((res) => {
                             this.setState({
                                 token,
                                 auth: true,
-                                user: res.data.user
+                                user: res.data.user,
                             });
                         })
-                        .catch(err => localStorage.removeItem('token'));
+                        .catch((err) => localStorage.removeItem('token'));
                 })
-                .catch(err => localStorage.removeItem('token'));
+                .catch((err) => localStorage.removeItem('token'));
         }
     }
 
@@ -42,7 +42,7 @@ class App extends Component {
         this.setState({
             token,
             auth: true,
-            user
+            user,
         });
     };
 
@@ -51,7 +51,7 @@ class App extends Component {
         this.setState({
             token: '',
             auth: false,
-            user: null
+            user: null,
         });
     };
 
@@ -61,8 +61,8 @@ class App extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                numTweets: this.state.user.numTweets + 1
-            }
+                numTweets: this.state.user.numTweets + 1,
+            },
         });
     };
 
@@ -79,7 +79,7 @@ class App extends Component {
                         <Route
                             exact
                             path="/"
-                            render={routeProps => (
+                            render={(routeProps) => (
                                 <Dashboard
                                     {...routeProps}
                                     token={this.state.token}
@@ -91,7 +91,7 @@ class App extends Component {
                         />
                         <Route
                             path="/login"
-                            render={routeProps => (
+                            render={(routeProps) => (
                                 <Login
                                     {...routeProps}
                                     handleLogin={this.handleLogin}
@@ -100,7 +100,7 @@ class App extends Component {
                         />
                         <Route
                             path="/register"
-                            render={routeProps => (
+                            render={(routeProps) => (
                                 <Register
                                     {...routeProps}
                                     handleRegister={this.handleRegister}
@@ -109,11 +109,11 @@ class App extends Component {
                         />
                         <Route
                             path="/tweet/:id"
-                            render={routeProps => <Tweet {...routeProps} />}
+                            render={(routeProps) => <Tweet {...routeProps} />}
                         />
                         <Route
                             path="/user/:id"
-                            render={routeProps => <Profile {...routeProps} />}
+                            render={(routeProps) => <Profile {...routeProps} />}
                         />
                         <Route component={NoMatch} />
                     </Switch>

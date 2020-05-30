@@ -7,19 +7,19 @@ import Feed from './Feed';
 
 class Dashboard extends Component {
     state = {
-        tweets: []
+        tweets: [],
     };
 
     componentDidMount() {
         axios
-            .get('/api/tweets')
-            .then(res => this.setState({ tweets: res.data.tweets }))
-            .catch(err => console.log(err));
+            .get('/tweets')
+            .then((res) => this.setState({ tweets: res.data.tweets }))
+            .catch((err) => console.log(err));
     }
 
-    handleNewTweet = newTweet => {
+    handleNewTweet = (newTweet) => {
         this.setState({
-            tweets: [newTweet, ...this.state.tweets]
+            tweets: [newTweet, ...this.state.tweets],
         });
         this.props.handleNewTweet();
     };

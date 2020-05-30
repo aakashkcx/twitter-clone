@@ -8,22 +8,22 @@ class Profile extends Component {
     state = {
         id: this.props.match.params.id,
         user: {},
-        tweets: []
+        tweets: [],
     };
 
     componentDidMount() {
         axios
-            .get(`/api/users/${this.state.id}`)
-            .then(res => {
+            .get(`/users/${this.state.id}`)
+            .then((res) => {
                 this.setState({ user: res.data.user });
                 axios
-                    .get(`/api/tweets/user/${this.state.id}`)
-                    .then(res => {
+                    .get(`/tweets/user/${this.state.id}`)
+                    .then((res) => {
                         this.setState({ tweets: res.data.tweets });
                     })
-                    .catch(err => {});
+                    .catch((err) => {});
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({ user: false });
             });
     }
