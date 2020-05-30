@@ -1,5 +1,5 @@
 {
-    "name": "server",
+    "name": "twitter-clone-server",
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
