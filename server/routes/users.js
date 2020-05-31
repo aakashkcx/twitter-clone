@@ -20,12 +20,12 @@ router.get('/:id', (req, res) => {
     db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
         if (err) return res.status(500).json({ err });
         if (!user) return res.status(404).json({ msg: 'User not found.' });
-
-        db.tweets.count({ user_id: req.params.id }, (err, num) => {
-            if (err) return res.status(500).json({ err });
-            user.numTweets = num;
-            res.status(200).json({ user });
-        });
+        // db.tweets.count({ user_id: req.params.id }, (err, num) => {
+        //     if (err) return res.status(500).json({ err });
+        //     user.numTweets = num;
+        //     res.status(200).json({ user });
+        // });
+        res.status(200).json({ user });
     });
 });
 
@@ -46,12 +46,13 @@ router.post('/', (req, res) => {
                 username,
                 email,
                 password: hash,
-                date: Date.now()
+                date: Math.floor(Date.now() / 1000),
             };
 
             db.users.insert(newUser, (err, createdUser) => {
                 if (err) return res.status(500).json(err);
 
+                delete createdUser.password;
                 jwt.sign(
                     { id: createdUser._id },
                     'secret',
@@ -59,10 +60,7 @@ router.post('/', (req, res) => {
                     (err, token) => {
                         if (err) return res.status(500).json(err);
 
-                        res.status(201).json({
-                            token,
-                            user_id: createdUser._id
-                        });
+                        res.status(201).json({ token, createdUser });
                     }
                 );
             });
