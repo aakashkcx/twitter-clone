@@ -41,10 +41,10 @@ class User extends Component {
                             <small>{user._id}</small>
                         </div>
                         <hr />
-                        <Feed tweets={this.state.tweets} />
+                        <Feed tweets={tweets} />
                     </div>
                 ) : (
-                    <div>{this.state.msg}</div>
+                    <div>{msg}</div>
                 )}
             </div>
         );
