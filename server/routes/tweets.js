@@ -35,9 +35,9 @@ router.post('/', authorization, (req, res) => {
         date: Math.floor(Date.now() / 1000),
     };
 
-    db.tweets.insert(newTweet, (err, createdTweet) => {
+    db.tweets.insert(newTweet, (err, tweet) => {
         if (err) return res.status(500).json({ err });
-        res.status(201).json({ createdTweet });
+        res.status(201).json({ tweet });
     });
 });
 

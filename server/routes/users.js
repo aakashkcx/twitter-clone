@@ -49,18 +49,18 @@ router.post('/', (req, res) => {
                 date: Math.floor(Date.now() / 1000),
             };
 
-            db.users.insert(newUser, (err, createdUser) => {
+            db.users.insert(newUser, (err, user) => {
                 if (err) return res.status(500).json(err);
 
-                delete createdUser.password;
+                delete user.password;
                 jwt.sign(
-                    { id: createdUser._id },
+                    { id: user._id },
                     'secret',
                     { expiresIn: 3600 },
                     (err, token) => {
                         if (err) return res.status(500).json(err);
 
-                        res.status(201).json({ token, createdUser });
+                        res.status(201).json({ token, user });
                     }
                 );
             });

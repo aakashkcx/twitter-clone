@@ -18,9 +18,9 @@ router.post('/', authorization, (req, res) => {
             date: Math.floor(Date.now() / 1000),
         };
 
-        db.likes.insert(newLike, (err, createdLike) => {
+        db.likes.insert(newLike, (err, like) => {
             if (err) return res.status(500).json({ err });
-            res.status(201).json({ createdLike });
+            res.status(201).json({ like });
         });
     });
 });
