@@ -2,129 +2,73 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
+import Dashboard from './routes/Dashboard';
+import Login from './routes/Login';
+import Register from './routes/Register';
+import User from './routes/User';
+import Tweet from './routes/Tweet';
+
 import Navbar from './components/Navbar';
-import Dashboard from './components/Dashboard';
-import Profile from './components/Profile';
-import Login from './components/Login';
-import Register from './components/Register';
-import Tweet from './components/Tweet';
 
 class App extends Component {
-    state = {
-        token: '',
-        auth: false,
-        user: null,
-    };
+    state = { token: '', user: null };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        if (token) {
+        if (token)
             axios
-                .get('/auth', { headers: { 'X-Auth-Token': token } })
-                .then((res) => {
-                    axios
-                        .get(`/users/${res.data.user_id}`)
-                        .then((res) => {
-                            this.setState({
-                                token,
-                                auth: true,
-                                user: res.data.user,
-                            });
-                        })
-                        .catch((err) => localStorage.removeItem('token'));
+                .get('/auth', { headers: { Authorization: `Bearer ${token}` } })
+                .then(({ data: { user } }) => {
+                    this.setState({ token, user });
                 })
                 .catch((err) => localStorage.removeItem('token'));
-        }
     }
 
-    handleLogin = (token, user) => {
+    login = (token, user) => {
         localStorage.setItem('token', token);
-        this.setState({
-            token,
-            auth: true,
-            user,
-        });
+        this.setState({ token, user });
     };
 
-    handleLogout = () => {
+    logout = () => {
         localStorage.removeItem('token');
-        this.setState({
-            token: '',
-            auth: false,
-            user: null,
-        });
-    };
-
-    handleRegister = this.handleLogin;
-
-    handleNewTweet = () => {
-        this.setState({
-            user: {
-                ...this.state.user,
-                numTweets: this.state.user.numTweets + 1,
-            },
-        });
+        this.setState({ token: '', user: null });
     };
 
     render() {
         return (
             <Router>
-                <Navbar
-                    auth={this.state.auth}
-                    user={this.state.user}
-                    handleLogout={this.handleLogout}
-                />
-                <div className="container">
-                    <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={(routeProps) => (
-                                <Dashboard
-                                    {...routeProps}
-                                    token={this.state.token}
-                                    auth={this.state.auth}
-                                    user={this.state.user}
-                                    handleNewTweet={this.handleNewTweet}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/login"
-                            render={(routeProps) => (
-                                <Login
-                                    {...routeProps}
-                                    handleLogin={this.handleLogin}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/register"
-                            render={(routeProps) => (
-                                <Register
-                                    {...routeProps}
-                                    handleRegister={this.handleRegister}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/tweet/:id"
-                            render={(routeProps) => <Tweet {...routeProps} />}
-                        />
-                        <Route
-                            path="/user/:id"
-                            render={(routeProps) => <Profile {...routeProps} />}
-                        />
-                        <Route component={NoMatch} />
-                    </Switch>
-                </div>
+                <Navbar user={this.state.user} logout={this.logout} />
+                <Switch>
+                    <Route
+                        path="/"
+                        exact
+                        render={() => <Dashboard token={this.state.token} />}
+                    />
+                    <Route
+                        path="/login"
+                        render={() => <Login login={this.login} />}
+                    />
+                    <Route
+                        path="/register"
+                        render={() => <Register login={this.login} />}
+                    />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => <User {...props} />}
+                    />
+                    <Route
+                        path="/tweet/:id"
+                        render={(props) => <Tweet {...props} />}
+                    />
+                    <Route render={(props) => <NotFound {...props} />} />
+                </Switch>
             </Router>
         );
     }
 }
 
-const NoMatch = ({ location }) => (
-    <div className="card card-body bg-light">
+const NotFound = ({ location }) => (
+    <div>
         <h1>404 Not Found</h1>
         <p>
             No match for <code>"{location.pathname}"</code>.

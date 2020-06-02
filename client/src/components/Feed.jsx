@@ -1,30 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-class Feed extends Component {
-    render() {
-        return (
-            <div className="list-group">
-                {this.props.tweets.map(tweet => (
-                    <Link
-                        key={tweet._id}
-                        to={`/tweet/${tweet._id}`}
-                        className="list-group-item list-group-item-action"
-                    >
-                        <h6>@{tweet.username}</h6>
+const Feed = (props) => {
+    return (
+        <div>
+            {props.tweets.map((tweet) => (
+                <Link to={`/tweet/${tweet._id}`}>
+                    <div key={tweet._id}>
+                        <h3>@{tweet.user.username}</h3>
                         <p>{tweet.tweet}</p>
-                        <small className="float-right">
-                            {new Date(tweet.date).toLocaleString(undefined, {
-                                dateStyle: 'medium',
-                                timeStyle: 'medium',
-                                hour12: 'false'
-                            })}
-                        </small>
-                    </Link>
-                ))}
-            </div>
-        );
-    }
-}
+                        <p>{moment.unix(tweet.date).fromNow(false)}</p>
+                    </div>
+                </Link>
+            ))}
+        </div>
+    );
+};
 
 export default Feed;
