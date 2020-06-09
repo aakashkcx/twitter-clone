@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Typography, TextField, Button } from '@material-ui/core';
 
 class NewTweet extends Component {
     state = { tweet: '', msg: '' };
 
     tweetChange = (e) => this.setState({ tweet: e.target.value });
+
+    reset = () => this.setState({ tweet: '', msg: '' });
 
     submit = (e) => {
         e.preventDefault();
@@ -27,23 +30,33 @@ class NewTweet extends Component {
             });
     };
 
-    reset = () => this.setState({ tweet: '', msg: '' });
-
     render() {
         return (
-            <div>
-                {this.state.msg && <p>{this.state.msg}</p>}
-                <form onSubmit={this.submit} onReset={this.reset}>
-                    <textarea
+            <section>
+                {this.state.msg && <Typography>{this.state.msg}</Typography>}
+                <form
+                    onSubmit={this.submit}
+                    onReset={this.reset}
+                    autoComplete="off"
+                >
+                    <TextField
                         value={this.state.tweet}
                         onChange={this.tweetChange}
-                        placeholder="Tweet..."
-                        rows="4"
-                    ></textarea>
-                    <input type="reset" value="Reset" />
-                    <input type="submit" value="Submit" />
+                        label="Tweet"
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                    />
+                    <Button variant="contained" color="secondary" type="reset">
+                        Reset
+                    </Button>
+                    <Button variant="contained" color="primary" type="submit">
+                        Submit
+                    </Button>
                 </form>
-            </div>
+            </section>
         );
     }
 }

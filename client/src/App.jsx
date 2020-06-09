@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+import { Container } from '@material-ui/core';
 
 import Dashboard from './routes/Dashboard';
 import Login from './routes/Login';
@@ -38,30 +39,34 @@ class App extends Component {
         return (
             <Router>
                 <Navbar user={this.state.user} logout={this.logout} />
-                <Switch>
-                    <Route
-                        path="/"
-                        exact
-                        render={() => <Dashboard token={this.state.token} />}
-                    />
-                    <Route
-                        path="/login"
-                        render={() => <Login login={this.login} />}
-                    />
-                    <Route
-                        path="/register"
-                        render={() => <Register login={this.login} />}
-                    />
-                    <Route
-                        path="/user/:id"
-                        render={(props) => <User {...props} />}
-                    />
-                    <Route
-                        path="/tweet/:id"
-                        render={(props) => <Tweet {...props} />}
-                    />
-                    <Route render={(props) => <NotFound {...props} />} />
-                </Switch>
+                <Container maxWidth="xs">
+                    <Switch>
+                        <Route
+                            path="/"
+                            exact
+                            render={() => (
+                                <Dashboard token={this.state.token} />
+                            )}
+                        />
+                        <Route
+                            path="/login"
+                            render={() => <Login login={this.login} />}
+                        />
+                        <Route
+                            path="/register"
+                            render={() => <Register login={this.login} />}
+                        />
+                        <Route
+                            path="/user/:id"
+                            render={(props) => <User {...props} />}
+                        />
+                        <Route
+                            path="/tweet/:id"
+                            render={(props) => <Tweet {...props} />}
+                        />
+                        <Route render={(props) => <NotFound {...props} />} />
+                    </Switch>
+                </Container>
             </Router>
         );
     }

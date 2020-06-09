@@ -1,20 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import {
+    Card,
+    CardActionArea,
+    CardContent,
+    Typography,
+} from '@material-ui/core';
 
 const Feed = (props) => {
     return (
-        <div>
+        <section>
             {props.tweets.map((tweet) => (
-                <Link to={`/tweet/${tweet._id}`}>
-                    <div key={tweet._id}>
-                        <h3>@{tweet.user.username}</h3>
-                        <p>{tweet.tweet}</p>
-                        <p>{moment.unix(tweet.date).fromNow(false)}</p>
-                    </div>
-                </Link>
+                <Card key={tweet._id} variant="outlined" square>
+                    <CardActionArea component={Link} to={`/tweet/${tweet._id}`}>
+                        <CardContent>
+                            <Typography variant="h6">
+                                @{tweet.user.username}
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                                {tweet.tweet}
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                                color="textSecondary"
+                            >
+                                {moment.unix(tweet.date).fromNow(false)}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             ))}
-        </div>
+        </section>
     );
 };
 
