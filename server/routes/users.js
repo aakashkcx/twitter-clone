@@ -16,19 +16,6 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/:id', (req, res) => {
-    db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
-        if (err) return res.status(500).json({ err });
-        if (!user) return res.status(404).json({ msg: 'User not found.' });
-        // db.tweets.count({ user_id: req.params.id }, (err, num) => {
-        //     if (err) return res.status(500).json({ err });
-        //     user.numTweets = num;
-        //     res.status(200).json({ user });
-        // });
-        res.status(200).json({ user });
-    });
-});
-
 router.post('/', (req, res) => {
     const { username, email, password } = req.body;
 
@@ -65,6 +52,14 @@ router.post('/', (req, res) => {
                 );
             });
         });
+    });
+});
+
+router.get('/:id', (req, res) => {
+    db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
+        if (err) return res.status(500).json({ err });
+        if (!user) return res.status(404).json({ msg: 'User not found.' });
+        res.status(200).json({ user });
     });
 });
 
