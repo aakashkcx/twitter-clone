@@ -29,9 +29,11 @@ router.get('/:id', (req, res) => {
 router.post('/', authorization, (req, res) => {
     if (!req.body.tweet) return res.status(400).json({ msg: 'Enter a tweet.' });
 
+    const { _id, username } = req.user;
     const newTweet = {
-        user: req.user,
+        user: { _id, username },
         tweet: req.body.tweet,
+        likes: [],
         date: Math.floor(Date.now() / 1000),
     };
 
@@ -39,6 +41,51 @@ router.post('/', authorization, (req, res) => {
         if (err) return res.status(500).json({ err });
         res.status(201).json({ tweet });
     });
+});
+
+router.delete('/', authorization, (req, res) => {
+    if (!req.body.id) return res.status(400).json({ msg: 'No tweet id.' });
+
+    db.tweets.remove(
+        { _id: req.body.id, 'user._id': req.user._id },
+        {},
+        (err, num) => {
+            if (err) return res.status(500).json(err);
+            if (!num) return res.status(404).json({ msg: 'Tweet not found.' });
+            res.setStatus(204);
+        }
+    );
+});
+
+router.post('/like', authorization, (req, res) => {
+    if (!req.body.id) return res.status(400).json({ msg: 'No tweet id.' });
+
+    const { _id, username } = req.user;
+    db.tweets.update(
+        { _id: req.body.id },
+        { $addToSet: { likes: { _id, username } } },
+        { returnUpdatedDocs: true },
+        (err, num, like) => {
+            if (err) return res.status(500).json(err);
+            if (!num) return res.status(404).json({ msg: 'Tweet not found.' });
+            res.status(201).json({ like });
+        }
+    );
+});
+
+router.delete('/like', authorization, (req, res) => {
+    if (!req.body.id) return res.status(400).json({ msg: 'No tweet id.' });
+
+    db.tweets.update(
+        { _id: req.body.id },
+        { $pull: { likes: { _id: req.user._id } } },
+        { returnUpdatedDocs: true },
+        (err, num, like) => {
+            if (err) return res.status(500).json(err);
+            if (!num) return res.status(404).json({ msg: 'Tweet not found.' });
+            res.status(201).json({ like });
+        }
+    );
 });
 
 router.get('/user/:id', (req, res) => {
