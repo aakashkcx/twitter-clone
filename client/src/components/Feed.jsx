@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {
+    Box,
     Card,
     CardActionArea,
     CardContent,
@@ -10,7 +11,7 @@ import {
 
 const Feed = (props) => {
     return (
-        <section>
+        <Box my={3}>
             {props.tweets.map((tweet) => (
                 <Card key={tweet._id} variant="outlined" square>
                     <CardActionArea component={Link} to={`/tweet/${tweet._id}`}>
@@ -31,7 +32,7 @@ const Feed = (props) => {
                     </CardActionArea>
                 </Card>
             ))}
-        </section>
+        </Box>
     );
 };
 

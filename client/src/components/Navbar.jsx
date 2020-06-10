@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import {
+    Box,
     AppBar,
     Container,
     Toolbar,
@@ -9,34 +9,26 @@ import {
     Button,
 } from '@material-ui/core';
 
-const useStyles = makeStyles({
-    toolbar: {
-        justifyContent: 'space-between',
-    },
-    title: {
-        textTransform: 'none',
-    },
-});
-
 const Navbar = (props) => {
-    const classes = useStyles();
-
     return (
         <AppBar position="static">
             <Container maxWidth="sm">
-                <Toolbar className={classes.toolbar}>
+                <Toolbar
+                    component={Box}
+                    display="flex"
+                    justifyContent="space-between"
+                >
                     <Button
                         color="inherit"
                         size="large"
                         component={Link}
                         to="/"
+                        style={{ textTransform: 'none' }}
                     >
-                        <Typography variant="h6" className={classes.title}>
-                            Twitter Clone
-                        </Typography>
+                        <Typography variant="h6">Twitter Clone</Typography>
                     </Button>
                     {props.user ? (
-                        <nav>
+                        <span>
                             <Button
                                 color="inherit"
                                 size="large"
@@ -53,9 +45,9 @@ const Navbar = (props) => {
                             >
                                 Logout
                             </Button>
-                        </nav>
+                        </span>
                     ) : (
-                        <nav>
+                        <span>
                             <Button
                                 color="inherit"
                                 size="large"
@@ -72,7 +64,7 @@ const Navbar = (props) => {
                             >
                                 Register
                             </Button>
-                        </nav>
+                        </span>
                     )}
                 </Toolbar>
             </Container>

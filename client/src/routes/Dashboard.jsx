@@ -21,10 +21,10 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div>
+            <>
                 <NewTweet token={this.props.token} newTweet={this.newTweet} />
                 <Feed tweets={this.state.tweets} />
-            </div>
+            </>
         );
     }
 }

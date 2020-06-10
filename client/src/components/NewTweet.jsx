@@ -1,64 +1,88 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Typography, TextField, Button } from '@material-ui/core';
+import {
+    TextField,
+    Button,
+    Box,
+    Grid,
+    Card,
+    CardContent,
+} from '@material-ui/core';
 
-class NewTweet extends Component {
-    state = { tweet: '', msg: '' };
+const NewTweet = (props) => {
+    const [tweet, setTweet] = useState('');
+    const [msg, setMsg] = useState('');
 
-    tweetChange = (e) => this.setState({ tweet: e.target.value });
+    const reset = () => {
+        setTweet('');
+        setMsg('');
+    };
 
-    reset = () => this.setState({ tweet: '', msg: '' });
-
-    submit = (e) => {
+    const submit = (e) => {
         e.preventDefault();
         axios
             .post(
                 '/tweets',
-                { tweet: this.state.tweet },
-                { headers: { Authorization: `Bearer: ${this.props.token}` } }
+                { tweet },
+                { headers: { Authorization: `Bearer: ${props.token}` } }
             )
-            .then(({ data: { tweet } }) => {
-                this.props.newTweet(tweet);
-                this.setState({ tweet: '', msg: '' });
+            .then((res) => {
+                props.newTweet(res.data.tweet);
+                reset();
             })
             .catch(({ response }) => {
-                console.log(response);
                 if (response.status === 400 || response.status === 401)
-                    this.setState({ msg: response.data.msg });
-                if (response.status === 500)
-                    this.setState({ msg: 'Internal Server Error' });
+                    setMsg(response.data.msg);
+                if (response.status === 500) setMsg('Internal Server Error');
             });
     };
 
-    render() {
-        return (
-            <section>
-                {this.state.msg && <Typography>{this.state.msg}</Typography>}
-                <form
-                    onSubmit={this.submit}
-                    onReset={this.reset}
-                    autoComplete="off"
-                >
-                    <TextField
-                        value={this.state.tweet}
-                        onChange={this.tweetChange}
-                        label="Tweet"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                    />
-                    <Button variant="contained" color="secondary" type="reset">
-                        Reset
-                    </Button>
-                    <Button variant="contained" color="primary" type="submit">
-                        Submit
-                    </Button>
-                </form>
-            </section>
-        );
-    }
-}
+    return (
+        <Box my={3}>
+            <Card variant="outlined">
+                <CardContent>
+                    <form onSubmit={submit} onReset={reset} autoComplete="off">
+                        <TextField
+                            name="tweet"
+                            label="Tweet"
+                            value={tweet}
+                            onChange={(e) => setTweet(e.target.value)}
+                            error={msg}
+                            helperText={
+                                msg ||
+                                `${tweet.length} character${
+                                    tweet.length === 1 ? '' : 's'
+                                }`
+                            }
+                            variant="outlined"
+                            margin="none"
+                            multiline
+                            rows={4}
+                            fullWidth
+                            required
+                        />
+                        <Box textAlign="right">
+                            <Button
+                                type="reset"
+                                variant="contained"
+                                color="secondary"
+                            >
+                                Reset
+                            </Button>
+                            &nbsp;
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                    </form>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+};
 
 export default NewTweet;

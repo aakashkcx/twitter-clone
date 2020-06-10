@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    TextField,
+    Button,
+} from '@material-ui/core';
 
 class Login extends Component {
-    initialState = { username: '', password: '', msg: '' };
-    state = { ...this.initialState, redirect: false };
+    state = { username: '', password: '', msg: '', redirect: false };
 
     usernameChange = (e) => this.setState({ username: e.target.value });
     passwordChange = (e) => this.setState({ password: e.target.value });
+
+    reset = () => this.setState({ username: '', password: '', msg: '' });
 
     submit = (e) => {
         e.preventDefault();
@@ -26,31 +35,68 @@ class Login extends Component {
             });
     };
 
-    reset = () => this.setState(this.initialState);
-
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         return (
-            <div>
-                <h1>Login</h1>
-                {this.state.msg && <p>{this.state.msg}</p>}
-                <form onSubmit={this.submit} onReset={this.reset}>
-                    <input
-                        type="text"
-                        value={this.state.username}
-                        onChange={this.usernameChange}
-                        placeholder="Username"
-                    />
-                    <input
-                        type="password"
-                        value={this.state.password}
-                        onChange={this.passwordChange}
-                        placeholder="Password"
-                    />
-                    <input type="submit" value="Login" />
-                    <input type="reset" value="Reset" />
-                </form>
-            </div>
+            <Box my={3}>
+                <Card variant="outlined">
+                    <CardContent>
+                        <Typography variant="h4">Login</Typography>
+                        <form onSubmit={this.submit} onReset={this.reset}>
+                            <TextField
+                                name="username"
+                                label="Username"
+                                value={this.state.username}
+                                onChange={this.usernameChange}
+                                error={this.state.msg}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                autoFocus
+                            />
+                            <TextField
+                                name="password"
+                                type="password"
+                                label="Password"
+                                value={this.state.password}
+                                onChange={this.passwordChange}
+                                error={this.state.msg}
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                            />
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                mt={2}
+                            >
+                                <Typography color="error">
+                                    {this.state.msg}
+                                </Typography>
+                                <span>
+                                    <Button
+                                        type="reset"
+                                        variant="contained"
+                                        color="secondary"
+                                    >
+                                        Reset
+                                    </Button>
+                                    &nbsp;
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Submit
+                                    </Button>
+                                </span>
+                            </Box>
+                        </form>
+                    </CardContent>
+                </Card>
+            </Box>
         );
     }
 }
