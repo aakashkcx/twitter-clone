@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import { Container } from '@material-ui/core';
+import {
+    Container,
+    Typography,
+    Box,
+    Card,
+    CardContent,
+} from '@material-ui/core';
 
 import Dashboard from './routes/Dashboard';
 import Login from './routes/Login';
@@ -64,7 +70,7 @@ class App extends Component {
                             path="/tweet/:id"
                             render={(props) => <Tweet {...props} />}
                         />
-                        <Route render={(props) => <NotFound {...props} />} />
+                        <Route component={NotFound} />
                     </Switch>
                 </Container>
             </Router>
@@ -73,12 +79,14 @@ class App extends Component {
 }
 
 const NotFound = ({ location }) => (
-    <div>
-        <h1>404 Not Found</h1>
-        <p>
-            No match for <code>"{location.pathname}"</code>.
-        </p>
-    </div>
+    <Box my={3}>
+        <Card variant="outlined">
+            <CardContent>
+                <Typography variant="h4">404 Not Found</Typography>
+                <Typography>No match for "{location.pathname}".</Typography>
+            </CardContent>
+        </Card>
+    </Box>
 );
 
 export default App;
