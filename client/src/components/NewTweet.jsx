@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Box, Card, CardContent, TextField, Button } from '@material-ui/core';
+
+import { AuthContext } from '../AuthContext';
 
 const NewTweet = (props) => {
     const [tweet, setTweet] = useState('');
     const [msg, setMsg] = useState('');
+
+    const { token } = useContext(AuthContext);
 
     const reset = () => {
         setTweet('');
@@ -17,7 +21,7 @@ const NewTweet = (props) => {
             .post(
                 '/tweets',
                 { tweet },
-                { headers: { Authorization: `Bearer: ${props.token}` } }
+                { headers: { Authorization: `Bearer: ${token}` } }
             )
             .then((res) => {
                 props.newTweet(res.data.tweet);

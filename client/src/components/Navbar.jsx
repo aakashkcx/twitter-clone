@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Box,
@@ -9,7 +9,11 @@ import {
     Button,
 } from '@material-ui/core';
 
-const Navbar = (props) => {
+import { AuthContext } from '../AuthContext';
+
+const Navbar = () => {
+    const { user, logout } = useContext(AuthContext);
+
     return (
         <AppBar position="static">
             <Container maxWidth="sm">
@@ -27,20 +31,20 @@ const Navbar = (props) => {
                     >
                         <Typography variant="h6">Twitter Clone</Typography>
                     </Button>
-                    {props.user ? (
+                    {user ? (
                         <span>
                             <Button
                                 color="inherit"
                                 size="large"
                                 component={Link}
-                                to={`/user/${props.user._id}`}
+                                to={`/user/${user._id}`}
                             >
-                                {props.user.username}
+                                {user.username}
                             </Button>
                             <Button
                                 color="inherit"
                                 size="large"
-                                onClick={props.logout}
+                                onClick={logout}
                             >
                                 Logout
                             </Button>

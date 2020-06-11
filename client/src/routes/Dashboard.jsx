@@ -1,32 +1,24 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Feed from '../components/Feed';
 import NewTweet from '../components/NewTweet';
 
-class Dashboard extends Component {
-    state = {
-        tweets: [],
-    };
-
-    componentDidMount() {
+const Dashboard = () => {
+    const [tweets, setTweets] = useState([]);
+    useEffect(() => {
         axios
             .get('/tweets')
-            .then(({ data: { tweets } }) => this.setState({ tweets }))
+            .then(({ data: { tweets } }) => setTweets(tweets))
             .catch((err) => console.log(err));
-    }
-
-    newTweet = (tweet) =>
-        this.setState({ tweets: [tweet, ...this.state.tweets] });
-
-    render() {
-        return (
-            <>
-                <NewTweet token={this.props.token} newTweet={this.newTweet} />
-                <Feed tweets={this.state.tweets} />
-            </>
-        );
-    }
-}
+    }, []);
+    const newTweet = (tweet) => setTweets([tweet, ...tweets]);
+    return (
+        <>
+            <NewTweet newTweet={newTweet} />
+            <Feed tweets={tweets} />
+        </>
+    );
+};
 
 export default Dashboard;
