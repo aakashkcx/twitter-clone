@@ -68,7 +68,9 @@ class App extends Component {
                         />
                         <Route
                             path="/tweet/:id"
-                            render={(props) => <Tweet {...props} />}
+                            render={(props) => (
+                                <Tweet {...props} user={this.state.user} />
+                            )}
                         />
                         <Route component={NotFound} />
                     </Switch>

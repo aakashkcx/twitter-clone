@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {
-    TextField,
-    Button,
-    Box,
-    Grid,
-    Card,
-    CardContent,
-} from '@material-ui/core';
+import { Box, Card, CardContent, TextField, Button } from '@material-ui/core';
 
 const NewTweet = (props) => {
     const [tweet, setTweet] = useState('');

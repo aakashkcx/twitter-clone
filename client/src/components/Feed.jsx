@@ -19,15 +19,23 @@ const Feed = (props) => {
                             <Typography variant="h6">
                                 @{tweet.user.username}
                             </Typography>
-                            <Typography variant="body1" gutterBottom>
-                                {tweet.tweet}
-                            </Typography>
-                            <Typography
-                                variant="subtitle2"
-                                color="textSecondary"
-                            >
-                                {moment.unix(tweet.date).fromNow(false)}
-                            </Typography>
+                            <Typography gutterBottom>{tweet.tweet}</Typography>
+                            <Box display="flex" justifyContent="space-between">
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    {moment.unix(tweet.date).fromNow(false)}
+                                </Typography>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    ❤ {tweet.likes.length}
+                                </Typography>
+                            </Box>
                         </CardContent>
                     </CardActionArea>
                 </Card>

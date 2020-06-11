@@ -33,15 +33,14 @@ const Navbar = (props) => {
                                 color="inherit"
                                 size="large"
                                 component={Link}
-                                to="/"
+                                to={`/user/${props.user._id}`}
                             >
                                 {props.user.username}
                             </Button>
                             <Button
                                 color="inherit"
                                 size="large"
-                                component={Link}
-                                to="/"
+                                onClick={props.logout}
                             >
                                 Logout
                             </Button>
