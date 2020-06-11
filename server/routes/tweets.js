@@ -82,10 +82,10 @@ router.post('/like', authorization, (req, res) => {
         { _id: req.body.id },
         { $addToSet: { likes: { _id, username } } },
         { returnUpdatedDocs: true },
-        (err, num, like) => {
+        (err, num, tweet) => {
             if (err) return res.status(500).json(err);
             if (!num) return res.status(404).json({ msg: 'Tweet not found.' });
-            res.status(201).json({ like });
+            res.status(201).json({ tweet });
         }
     );
 });
@@ -97,10 +97,10 @@ router.delete('/like', authorization, (req, res) => {
         { _id: req.body.id },
         { $pull: { likes: { _id: req.user._id } } },
         { returnUpdatedDocs: true },
-        (err, num, like) => {
+        (err, num, tweet) => {
             if (err) return res.status(500).json(err);
             if (!num) return res.status(404).json({ msg: 'Tweet not found.' });
-            res.status(201).json({ like });
+            res.status(201).json({ tweet });
         }
     );
 });
