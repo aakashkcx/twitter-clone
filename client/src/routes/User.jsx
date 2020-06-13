@@ -1,54 +1,66 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { Box, Button, Card, CardContent, Typography } from '@material-ui/core';
+import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
+
+// import { AuthContext } from '../AuthContext';
 
 import Feed from '../components/Feed';
+import Error from '../components/Error';
 
-class User extends Component {
-    state = {
-        user: null,
-        tweets: [],
-        msg: '',
-    };
+const User = ({ match: { params } }) => {
+    const [user, setUser] = useState(null);
+    const [tweets, setTweets] = useState([]);
+    const [msg, setMsg] = useState('');
 
-    componentDidMount() {
+    useEffect(() => {
         axios
-            .get(`/users/${this.props.match.params.id}`)
-            .then(({ data: { user } }) => this.setState({ user }))
+            .get(`/users/${params.id}`)
+            .then(({ data: { user } }) => setUser(user))
             .catch(({ response }) => {
-                if (response.status === 404)
-                    this.setState({ msg: response.data.msg });
-                if (response.status === 500)
-                    this.setState({ msg: 'Internal Server Error' });
+                if (response.status == 404) setMsg(response.data.msg);
+                if (response.status == 500) setMsg('Internal Server Error');
             });
         axios
-            .get(`/tweets/user/${this.props.match.params.id}`)
-            .then(({ data: { tweets } }) => this.setState({ tweets }));
-    }
-    render() {
-        const { user, tweets, msg } = this.state;
-        return (
-            <div>
-                <button type="button" onClick={() => window.history.back()}>
+            .get(`/tweets/user/${params.id}`)
+            .then(({ data: { tweets } }) => setTweets(tweets))
+            .catch((err) => console.log(err));
+    }, [params.id]);
+
+    if (!user) return <Error title="Error" msg={msg} />;
+
+    return (
+        <>
+            <Box my={2}>
+                <Button
+                    variant="contained"
+                    size="small"
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => window.history.back()}
+                >
                     Back
-                </button>
-                {this.state.user ? (
-                    <div>
-                        <div>
-                            <h3>@{user.username}</h3>
-                            <h5>{user.email}</h5>
-                            <p>{moment.unix(user.date).format('LLL')}</p>
-                            <small>{user._id}</small>
-                        </div>
-                        <hr />
-                        <Feed tweets={tweets} />
-                    </div>
-                ) : (
-                    <div>{msg}</div>
-                )}
-            </div>
-        );
-    }
-}
+                </Button>
+            </Box>
+            <Box my={2}>
+                <Card variant="outlined">
+                    <CardContent>
+                        <Typography variant="h5" paragraph>
+                            @{user.username}
+                        </Typography>
+                        <Typography variant="body1">{user.email}</Typography>
+                        <Typography variant="body2" paragraph>
+                            Joined {moment.unix(user.date).format('LLL')}
+                        </Typography>
+                        <Typography variant="body1">
+                            {tweets.length} Tweet{tweets.length !== 1 && 's'}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Box>
+            <Feed tweets={tweets} />
+        </>
+    );
+};
 
 export default User;
