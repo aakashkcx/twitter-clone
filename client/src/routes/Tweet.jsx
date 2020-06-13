@@ -40,19 +40,20 @@ const Tweet = ({ match: { params } }) => {
     const liked = user && tweet.likes.filter((x) => x._id === user._id).length;
 
     const like = () => {
-        (!liked
-            ? axios.post(
-                  `/tweets/like`,
-                  { id: tweet._id },
-                  { headers: { Authorization: `Bearer ${token}` } }
-              )
-            : axios.delete(`/tweets/like`, {
-                  data: { id: tweet._id },
-                  headers: { Authorization: `Bearer ${token}` },
-              })
-        )
-            .then(({ data: { tweet } }) => setTweet(tweet))
-            .catch((err) => console.dir(err));
+        if (user)
+            (!liked
+                ? axios.post(
+                      `/tweets/like`,
+                      { id: tweet._id },
+                      { headers: { Authorization: `Bearer ${token}` } }
+                  )
+                : axios.delete(`/tweets/like`, {
+                      data: { id: tweet._id },
+                      headers: { Authorization: `Bearer ${token}` },
+                  })
+            )
+                .then(({ data: { tweet } }) => setTweet(tweet))
+                .catch((err) => console.dir(err));
     };
 
     return (

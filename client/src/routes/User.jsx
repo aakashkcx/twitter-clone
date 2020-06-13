@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Box, Button, Card, CardContent, Typography } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
-
-// import { AuthContext } from '../AuthContext';
 
 import Feed from '../components/Feed';
 import Error from '../components/Error';
@@ -19,8 +17,8 @@ const User = ({ match: { params } }) => {
             .get(`/users/${params.id}`)
             .then(({ data: { user } }) => setUser(user))
             .catch(({ response }) => {
-                if (response.status == 404) setMsg(response.data.msg);
-                if (response.status == 500) setMsg('Internal Server Error');
+                if (response.status === 404) setMsg(response.data.msg);
+                if (response.status === 500) setMsg('Internal Server Error');
             });
         axios
             .get(`/tweets/user/${params.id}`)
