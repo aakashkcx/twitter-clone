@@ -1,21 +1,21 @@
 {
-    "name": "twitter-clone",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-        "install": "(cd server && npm install) && (cd ../client && npm install)",
-        "server": "npm start --prefix server",
-        "server-dev": "npm run dev --prefix server",
-        "client": "npm start --prefix client"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/aakashkcx/twitter-clone.git"
-    },
-    "author": "Aakash Kc",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/aakashkcx/twitter-clone/issues"
-    },
-    "homepage": "https://github.com/aakashkcx/twitter-clone#readme"
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install": "(cd server && npm install) && (cd ../client && npm install)",
+    "server": "npm start --prefix server",
+    "server-dev": "npm run dev --prefix server",
+    "client": "npm start --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aakashkcx/twitter-clone.git"
+  },
+  "author": "Aakash Kc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aakashkcx/twitter-clone/issues"
+  },
+  "homepage": "https://github.com/aakashkcx/twitter-clone#readme"
 }

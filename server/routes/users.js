@@ -1,66 +1,66 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const db = require('../database');
+const db = require("../database");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    db.users
-        .find({}, { password: 0 })
-        .sort({ date: -1 })
-        .exec((err, users) => {
-            if (err) return res.status(500).json({ err });
-            res.status(200).json({ users });
-        });
+router.get("/", (req, res) => {
+  db.users
+    .find({}, { password: 0 })
+    .sort({ date: -1 })
+    .exec((err, users) => {
+      if (err) return res.status(500).json({ err });
+      res.status(200).json({ users });
+    });
 });
 
-router.post('/', (req, res) => {
-    const { username, email, password } = req.body;
+router.post("/", (req, res) => {
+  const { username, email, password } = req.body;
 
-    if (!(username && email && password))
-        return res.status(400).json({ msg: 'Complete registration form.' });
+  if (!(username && email && password))
+    return res.status(400).json({ msg: "Complete registration form." });
 
-    db.users.findOne({ $or: [{ username }, { email }] }, (err, user) => {
+  db.users.findOne({ $or: [{ username }, { email }] }, (err, user) => {
+    if (err) return res.status(500).json(err);
+    if (user) return res.status(400).json({ msg: "User already exists." });
+
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) return res.status(500).json(err);
+
+      const newUser = {
+        username,
+        email,
+        password: hash,
+        date: Math.floor(Date.now() / 1000),
+      };
+
+      db.users.insert(newUser, (err, user) => {
         if (err) return res.status(500).json(err);
-        if (user) return res.status(400).json({ msg: 'User already exists.' });
 
-        bcrypt.hash(password, 10, (err, hash) => {
+        delete user.password;
+        jwt.sign(
+          { id: user._id },
+          "secret",
+          { expiresIn: 3600 },
+          (err, token) => {
             if (err) return res.status(500).json(err);
 
-            const newUser = {
-                username,
-                email,
-                password: hash,
-                date: Math.floor(Date.now() / 1000),
-            };
-
-            db.users.insert(newUser, (err, user) => {
-                if (err) return res.status(500).json(err);
-
-                delete user.password;
-                jwt.sign(
-                    { id: user._id },
-                    'secret',
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        if (err) return res.status(500).json(err);
-
-                        res.status(201).json({ token, user });
-                    }
-                );
-            });
-        });
+            res.status(201).json({ token, user });
+          }
+        );
+      });
     });
+  });
 });
 
-router.get('/:id', (req, res) => {
-    db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
-        if (err) return res.status(500).json({ err });
-        if (!user) return res.status(404).json({ msg: 'User not found.' });
-        res.status(200).json({ user });
-    });
+router.get("/:id", (req, res) => {
+  db.users.findOne({ _id: req.params.id }, { password: 0 }, (err, user) => {
+    if (err) return res.status(500).json({ err });
+    if (!user) return res.status(404).json({ msg: "User not found." });
+    res.status(200).json({ user });
+  });
 });
 
 module.exports = router;
