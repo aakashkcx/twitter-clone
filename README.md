@@ -30,14 +30,24 @@ $ npm run client
 
 ## Images
 
+[Album](https://imgur.com/a/ZKUFIMh)
+
 #### Dashboard
 
-![Dashboard](https://i.imgur.com/wY83bnT.png)
+![Dashboard](https://i.imgur.com/5svoYUq.png)
+![Dashboard Dark](https://i.imgur.com/oAVhln6.png)
 
 #### Tweet
 
-![Tweet](https://i.imgur.com/mVbIZzz.png)
+![Tweet](https://i.imgur.com/t0493H3.png)
+![Tweet Dark](https://i.imgur.com/DFHiDwu.png)
 
 #### Profile
 
-![Profile](https://i.imgur.com/pwgEy5c.png)
+![Profile](https://i.imgur.com/HDraVui.png)
+![Profile Dark](https://i.imgur.com/dz1VW2s.png)
+
+#### Login / Register
+
+![Login](https://i.imgur.com/yBsXIDM.png)
+![Register Dark](https://i.imgur.com/QQQXvkf.png)
