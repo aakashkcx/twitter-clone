@@ -7,11 +7,16 @@ import {
   Toolbar,
   Typography,
   Button,
+  IconButton,
 } from "@material-ui/core";
+import {
+  BrightnessHigh as BrightnessHighIcon,
+  BrightnessLow as BrightnessLowIcon,
+} from "@material-ui/icons";
 
 import { AuthContext } from "../AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ theme: [dark, setDark] }) => {
   const { user, logout } = useContext(AuthContext);
 
   return (
@@ -27,35 +32,45 @@ const Navbar = () => {
           >
             <Typography variant="h6">Twitter Clone</Typography>
           </Button>
-          {user ? (
-            <span>
-              <Button
-                color="inherit"
-                size="large"
-                component={Link}
-                to={`/user/${user._id}`}
-              >
-                {user.username}
-              </Button>
-              <Button color="inherit" size="large" onClick={logout}>
-                Logout
-              </Button>
-            </span>
-          ) : (
-            <span>
-              <Button color="inherit" size="large" component={Link} to="/login">
-                Login
-              </Button>
-              <Button
-                color="inherit"
-                size="large"
-                component={Link}
-                to="/register"
-              >
-                Register
-              </Button>
-            </span>
-          )}
+          <Box>
+            {user ? (
+              <>
+                <Button
+                  color="inherit"
+                  size="large"
+                  component={Link}
+                  to={`/user/${user._id}`}
+                >
+                  {user.username}
+                </Button>
+                <Button color="inherit" size="large" onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  color="inherit"
+                  size="large"
+                  component={Link}
+                  to="/login"
+                >
+                  Login
+                </Button>
+                <Button
+                  color="inherit"
+                  size="large"
+                  component={Link}
+                  to="/register"
+                >
+                  Register
+                </Button>
+              </>
+            )}
+            <IconButton color="inherit" onClick={() => setDark(!dark)}>
+              {dark ? <BrightnessLowIcon /> : <BrightnessHighIcon />}
+            </IconButton>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
