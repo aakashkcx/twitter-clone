@@ -1,5 +1,54 @@
 # Twitter Clone
 
+This project features a full-stack web application that clones the Twitter (now known as X) social media platform. The project is built with the following technologies:
+
+- A [Next.js](https://nextjs.org/) web application
+- [Typescript](https://www.typescriptlang.org/) type checking
+- React [server components](https://react.dev/reference/rsc/server-components) for server-side UI rendering and caching
+- Next.js [server actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) for asynchronous server calls and data mutations
+- A SQLite database with [Drizzle ORM](https://orm.drizzle.team/) for data query APIs
+- [Tailwind CSS](https://tailwindcss.com/) utility classes
+- Re-usable and customisable components by [shadcn/ui](https://ui.shadcn.com/)
+- Stateless session management using [JSON Web Tokens](https://jwt.io/)
+- Light/dark mode by [next-themes](https://github.com/pacocoursey/next-themes)
+- [Zod](https://zod.dev/) schema validation with [React Hook Form](https://react-hook-form.com/)
+
+## Installation
+
+Clone the git repository:
+
+```bash
+git clone https://github.com/aakashkcx/twitter-clone.git
+git clone git@github.com:aakashkcx/twitter-clone.git
+```
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Run development server:
+
+```bash
+pnpm dev
+```
+
+Deploy the application:
+
+```bash
+pnpm build
+pnpm start
+```
+
+Optional: run Drizzle Studio to explore database:
+
+```bash
+db:studio
+```
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
