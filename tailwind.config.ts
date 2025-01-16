@@ -9,7 +9,7 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: { "2xl": "640px" },
+      screens: { none: "640px" },
     },
     extend: {
       fontFamily: {
