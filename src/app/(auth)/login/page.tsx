@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-sm">
       <CardHeader>
         <CardTitle>Login</CardTitle>
       </CardHeader>

@@ -5,7 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { likeTweet, unlikeTweet } from "@/app/(private)/actions";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export function TweetFeed({
@@ -39,41 +44,39 @@ export function TweetFeed({
 
         return (
           <Link key={tweet.id} href={`/tweet/${tweet.id}`}>
-            <Card>
-              <CardContent className="flex flex-col gap-1 p-4">
-                <div className="flex gap-2 font-semibold">
-                  @{tweet.user.username}
-                  {tweet.parent && (
-                    <>
-                      <span className="font-normal text-muted-foreground">
-                        replying to
-                      </span>
+            <Card className="gap-3">
+              <CardHeader className="flex flex-row gap-2">
+                <span className="font-bold">@{tweet.user.username}</span>
+                {tweet.parent && (
+                  <>
+                    <span className="text-muted-foreground">replying to</span>
+                    <span className="font-bold">
                       @{tweet.parent.user.username}
-                    </>
-                  )}
+                    </span>
+                  </>
+                )}
+              </CardHeader>
+              <CardContent>{tweet.body}</CardContent>
+              <CardFooter className="text-muted-foreground flex flex-row justify-between text-sm">
+                <div className="flex min-w-max items-center gap-1">
+                  <Calendar className="size-4" />
+                  {tweet.created.toLocaleString()}
                 </div>
-                <div>{tweet.body}</div>
-                <div className="flex text-sm text-muted-foreground">
-                  <div className="flex w-2/5 min-w-max items-center gap-1">
-                    <Calendar className="size-4" />
-                    {tweet.created.toLocaleString()}
-                  </div>
-                  <div className="flex w-1/6 min-w-max items-center gap-1">
-                    <MessageCircle className="size-4" />
-                    {tweet.children?.length}
-                  </div>
-                  <button
-                    className="flex min-w-max items-center gap-1 hover:text-chart-5"
-                    onClick={onLikeClick}
-                  >
-                    <Heart
-                      fill={liked ? "currentColor" : "none"}
-                      className={cn("size-4", liked && "text-chart-5")}
-                    />
-                    {tweet.likes.length}
-                  </button>
+                <div className="flex min-w-max items-center gap-1">
+                  <MessageCircle className="size-4" />
+                  {tweet.children?.length}
                 </div>
-              </CardContent>
+                <button
+                  className="flex min-w-max items-center gap-1 hover:text-red-500"
+                  onClick={onLikeClick}
+                >
+                  <Heart
+                    fill={liked ? "currentColor" : "none"}
+                    className={cn("size-4", liked && "text-red-500")}
+                  />
+                  {tweet.likes.length}
+                </button>
+              </CardFooter>
             </Card>
           </Link>
         );

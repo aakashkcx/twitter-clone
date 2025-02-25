@@ -1,6 +1,6 @@
 import { Calendar, Inbox, StickyNote } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function UserCard({
   user,
@@ -17,9 +17,9 @@ export function UserCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>@{user.username}</CardTitle>
+        <CardTitle className="text-xl">@{user.username}</CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-5 text-muted-foreground">
+      <CardFooter className="text-muted-foreground flex justify-between gap-5">
         <div className="flex items-center gap-1">
           <Inbox className="size-4" />
           {user.email}
@@ -32,7 +32,7 @@ export function UserCard({
           <StickyNote className="size-4" />
           {numTweets} Tweets
         </div>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }
