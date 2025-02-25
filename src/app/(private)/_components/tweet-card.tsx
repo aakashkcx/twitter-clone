@@ -47,24 +47,22 @@ export function TweetCard({
           </Link>
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        <div className="text-xl">{tweet.body}</div>
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-          <Calendar className="size-4" />
-          {tweet.created.toLocaleString()}
-        </div>
-      </CardContent>
+      <CardContent className="text-xl">{tweet.body}</CardContent>
+      <CardFooter className="text-muted-foreground flex items-center gap-1 text-sm">
+        <Calendar className="size-4" /> {tweet.created.toLocaleString()}
+      </CardFooter>
       <CardFooter className="flex gap-10">
-        <div className="flex items-center gap-3">
-          <MessageCircle className="size-5" /> {tweet.children.length}
-        </div>
+        <span className="flex items-center gap-3">
+          <MessageCircle className="size-5" />
+          {tweet.children.length}
+        </span>
         <button
-          className="flex items-center gap-3 hover:text-chart-5"
+          className="flex items-center gap-3 hover:text-red-500"
           onClick={onLikeClick}
         >
           <Heart
             fill={liked ? "currentColor" : "none"}
-            className={cn("size-5", liked && "text-chart-5")}
+            className={cn("size-5", liked && "text-red-500")}
           />
           {tweet.likes.length}
         </button>
