@@ -3,8 +3,8 @@ import { notFound, redirect } from "next/navigation";
 import { TweetCard } from "@/app/(private)/_components/tweet-card";
 import { TweetFeed } from "@/app/(private)/_components/tweet-feed";
 import { TweetForm } from "@/app/(private)/_components/tweet-form";
-import { db } from "@/db";
 import { verifySession } from "@/lib/session";
+import { QUERIES } from "@/server/db/queries";
 
 export default async function TweetPage({
   params,
@@ -19,31 +19,7 @@ export default async function TweetPage({
   const tweetId = Number(tweetIdString);
   if (Number.isNaN(tweetId)) return notFound();
 
-  const tweet = await db.query.tweetsTable.findFirst({
-    where: (tweet, { eq }) => eq(tweet.id, tweetId),
-    with: {
-      user: { columns: { username: true } },
-      parent: {
-        with: {
-          user: { columns: { username: true } },
-          parent: { with: { user: { columns: { username: true } } } },
-          children: { columns: { id: true } },
-          likes: { columns: { user: true } },
-        },
-      },
-      children: {
-        columns: { parent: false },
-        with: {
-          user: { columns: { username: true } },
-          children: { columns: { id: true } },
-          likes: { columns: { user: true } },
-        },
-        orderBy: (tweets, { desc }) => desc(tweets.created),
-        limit: 10,
-      },
-      likes: { columns: { user: true } },
-    },
-  });
+  const tweet = await QUERIES.getTweet(tweetId);
 
   if (!tweet) return notFound();
 

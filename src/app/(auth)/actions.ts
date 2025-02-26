@@ -1,13 +1,12 @@
 "use server";
 
-import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { loginSchema, registerSchema } from "@/app/(auth)/schema";
-import { db, usersTable } from "@/db";
 import { compareHash, hashFunc } from "@/lib/hash";
 import { createSession, deleteSession } from "@/lib/session";
+import { MUTATIONS, QUERIES } from "@/server/db/queries";
 
 export async function login(
   values: z.infer<typeof loginSchema>,
@@ -16,9 +15,7 @@ export async function login(
 
   if (!success) return { success: false, error: "Invalid inputs." };
 
-  const user = await db.query.usersTable.findFirst({
-    where: eq(usersTable.username, data.username),
-  });
+  const user = await QUERIES.getUserHashByUsername(data.username);
 
   if (!user) return { success: false, error: "Could not find user." };
 
@@ -40,10 +37,7 @@ export async function register(
 
   const hash = await hashFunc(data.password);
 
-  const user = await db
-    .insert(usersTable)
-    .values({ ...data, hash })
-    .returning();
+  const user = await MUTATIONS.createUser({ ...data, hash });
 
   await createSession(user[0].id);
 
