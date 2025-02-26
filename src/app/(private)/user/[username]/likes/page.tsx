@@ -2,8 +2,8 @@ import { notFound, redirect } from "next/navigation";
 
 import { TweetFeed } from "@/app/(private)/_components/tweet-feed";
 import { UserCard } from "@/app/(private)/_components/user-card";
-import { db } from "@/db";
 import { verifySession } from "@/lib/session";
+import { QUERIES } from "@/server/db/queries";
 
 export default async function UserLikesPage({
   params,
@@ -15,35 +15,16 @@ export default async function UserLikesPage({
   const userId = await verifySession();
   if (!userId) redirect("/login");
 
-  const user = await db.query.usersTable.findFirst({
-    columns: { hash: false },
-    where: (user, { eq }) => eq(user.username, username),
-    with: {
-      likes: {
-        with: {
-          tweet: {
-            with: {
-              user: { columns: { username: true } },
-              parent: { with: { user: { columns: { username: true } } } },
-              children: { columns: { id: true } },
-              likes: { columns: { user: true } },
-            },
-          },
-        },
-        orderBy: (likes, { desc }) => desc(likes.created),
-      },
-    },
-  });
+  const user = await QUERIES.getUserByUsername(username);
 
   if (!user) return notFound();
+
+  const likes = await QUERIES.getLikesForUser(user.id);
 
   return (
     <div className="flex flex-col gap-3">
       <UserCard user={user} numTweets={1} />
-      <TweetFeed
-        tweets={user.likes.map((like) => like.tweet)}
-        userId={userId}
-      />
+      <TweetFeed tweets={likes.map((like) => like.tweet)} userId={userId} />
     </div>
   );
 }
