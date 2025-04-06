@@ -1,12 +1,25 @@
 {
   "name": "twitter-clone",
-  "version": "0.1.0",
   "private": true,
+  "description": "A twitter clone.",
+  "author": "Aakash Kc <aakashkcx@gmail.com>",
+  "homepage": "https://github.com/aakashkcx/twitter-clone#readme",
+  "bugs": {
+    "url": "https://github.com/aakashkcx/twitter-clone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aakashkcx/twitter-clone.git"
+  },
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
+    "dev": "next dev --turbopack",
+    "format:check": "prettier . --check --cache",
+    "format:write": "prettier . --write --cache",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "start": "next start",
-    "lint": "next lint"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
@@ -14,23 +27,23 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.487.0",
     "next": "15.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tailwind-merge": "^3.1.0",
     "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.3",
+    "@types/node": "^20.17.30",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "eslint": "^9.24.0",
     "eslint-config-next": "15.2.4",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.7.1"
 }
