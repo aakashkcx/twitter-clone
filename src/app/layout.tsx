@@ -51,7 +51,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="container grow">{children}</main>
+          <main className="container flex grow flex-col gap-5">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
