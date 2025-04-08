@@ -14,10 +14,16 @@ export function Header() {
         </Link>
         <nav className="flex flex-row items-center gap-3 font-medium">
           <Link
-            href="/"
+            href="/login"
             className="text-muted-foreground hover:text-primary p-2 transition-colors"
           >
-            Link
+            Log In
+          </Link>
+          <Link
+            href="/signup"
+            className="text-muted-foreground hover:text-primary p-2 transition-colors"
+          >
+            Sign Up
           </Link>
         </nav>
       </div>
