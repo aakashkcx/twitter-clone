@@ -9,7 +9,7 @@ const updatedAt = timestamp("updated_at", { withTimezone: true })
   .$onUpdate(() => new Date());
 
 export const usersTable = pgTable("users", {
-  user_id: integer("user_id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id").primaryKey().generatedAlwaysAsIdentity(),
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   createdAt,
@@ -17,8 +17,10 @@ export const usersTable = pgTable("users", {
 });
 
 export const tweetsTable = pgTable("tweets", {
-  tweet_id: integer("tweet_id").primaryKey().generatedAlwaysAsIdentity(),
-  user_id: integer("user_id").notNull(),
+  tweetId: integer("tweet_id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => usersTable.userId),
   text: text("text").notNull(),
   createdAt,
   updatedAt,
