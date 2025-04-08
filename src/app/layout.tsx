@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Domine, Geist, Geist_Mono } from "next/font/google";
+
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
@@ -30,11 +35,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${domineSerif.variable} antialiased`}
+        className={cn(
+          "flex min-h-screen flex-col gap-10",
+          geistSans.variable,
+          geistMono.variable,
+          domineSerif.variable,
+        )}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          enableSystem
+          defaultTheme="system"
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="container grow">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
