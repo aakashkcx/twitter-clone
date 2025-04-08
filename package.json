@@ -13,6 +13,8 @@
   },
   "scripts": {
     "build": "next build",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
     "dev": "next dev --turbopack",
     "format:check": "prettier . --check --cache",
     "format:write": "prettier . --write --cache",
