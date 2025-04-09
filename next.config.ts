@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-import "@/env";
-
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
