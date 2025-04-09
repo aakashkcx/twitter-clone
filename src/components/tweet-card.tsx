@@ -1,9 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-export function TweetCard(tweet: {
-  user: { username: string };
-  text: string;
-  createdAt: Date;
+export function TweetCard({
+  tweet,
+}: {
+  tweet: {
+    user: { username: string };
+    text: string;
+    createdAt: Date;
+  };
 }) {
   return (
     <Card className="flex flex-col gap-1">
