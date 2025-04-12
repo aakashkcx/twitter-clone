@@ -71,8 +71,8 @@
   --accent: var(--color-neutral-800);
   --accent-foreground: var(--color-neutral-50);
   --destructive: var(--color-red-400);
-  --border: oklch(from var(--color-white) l c h / 10%);
-  --input: oklch(from var(--color-white) l c h / 15%);
+  --border: --alpha(var(--color-white) / 10%);
+  --input: --alpha(var(--color-white) / 15%);
   --ring: var(--color-neutral-500);
 }
 
