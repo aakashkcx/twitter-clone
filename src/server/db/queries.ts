@@ -50,6 +50,7 @@ export const QUERIES = {
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.userId, userId))
       .orderBy(desc(tweetsTable.createdAt));
+
     return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
   },
 
@@ -61,6 +62,27 @@ export const QUERIES = {
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(verified ? eq(usersTable.verified, verified) : undefined)
       .orderBy(desc(tweetsTable.createdAt));
+
+    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
+  },
+
+  getRepliesByTweetId: async function (tweetId: number) {
+    const rows = await db
+      .select()
+      .from(tweetsTable)
+      .where(eq(tweetsTable.parentId, tweetId))
+      .orderBy(desc(tweetsTable.createdAt));
+    return rows;
+  },
+
+  getRepliesByTweetIdWithUser: async function (tweetId: number) {
+    const rows = await db
+      .select()
+      .from(tweetsTable)
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
+      .where(eq(tweetsTable.parentId, tweetId))
+      .orderBy(desc(tweetsTable.createdAt));
+
     return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
   },
 };

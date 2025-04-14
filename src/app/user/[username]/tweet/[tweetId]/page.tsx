@@ -21,12 +21,33 @@ export default async function UserTweetPage({
   const tweet = await QUERIES.getTweetById(tweetId);
   if (!tweet || tweet.userId !== user.userId) return notFound();
 
+  const parent = tweet.parentId
+    ? await QUERIES.getTweetByIdWithUser(tweet.parentId)
+    : undefined;
+
+  const replies = await QUERIES.getRepliesByTweetIdWithUser(tweet.tweetId);
+
   return (
     <>
       <Link href={`/@${user.username}`}>
         <UserCard user={user} />
       </Link>
-      <TweetCard tweet={tweet} user={user} />
+      {parent && (
+        <Link href={`/@${parent.user.username}/tweet/${parent.tweet.tweetId}`}>
+          <TweetCard tweet={parent.tweet} user={parent.user} />
+        </Link>
+      )}
+      <TweetCard tweet={tweet} user={user} size="lg" />
+      <div className="flex flex-col gap-3">
+        {replies.map((reply) => (
+          <Link
+            key={reply.tweet.tweetId}
+            href={`/@${reply.user.username}/tweet/${reply.tweet.tweetId}`}
+          >
+            <TweetCard tweet={reply.tweet} user={reply.user} />
+          </Link>
+        ))}
+      </div>
     </>
   );
 }
