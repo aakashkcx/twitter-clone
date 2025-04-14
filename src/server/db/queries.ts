@@ -1,28 +1,66 @@
+import { desc, eq } from "drizzle-orm";
+
 import { db } from "@/server/db";
+import { tweetsTable, usersTable } from "@/server/db/schema";
 
 export const QUERIES = {
-  getUserByUsername(username: string) {
-    return db.query.usersTable.findFirst({
-      where: (usersTable, { eq }) => eq(usersTable.username, username),
-    });
+  getUserByUsername: async function (username: string) {
+    const users = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.username, username));
+    if (users.length === 0) return undefined;
+    return users[0];
   },
-  getTweetById(tweetId: number) {
-    return db.query.tweetsTable.findFirst({
-      where: (tweetsTable, { eq }) => eq(tweetsTable.tweetId, tweetId),
-      with: { user: true },
-    });
+
+  getTweetById: async function (tweetId: number) {
+    const tweets = await db
+      .select()
+      .from(tweetsTable)
+      .where(eq(tweetsTable.tweetId, tweetId));
+    if (tweets.length === 0) return undefined;
+    return tweets[0];
   },
-  getAllTweetsByUser(userId: number) {
-    return db.query.tweetsTable.findMany({
-      where: (tweetsTable, { eq }) => eq(tweetsTable.userId, userId),
-      with: { user: true },
-      orderBy: (tweetsTable, { desc }) => desc(tweetsTable.createdAt),
-    });
+
+  getTweetByIdWithUser: async function (tweetId: number) {
+    const rows = await db
+      .select()
+      .from(tweetsTable)
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
+      .where(eq(tweetsTable.tweetId, tweetId));
+    if (rows.length === 0) return undefined;
+
+    const { users: user, tweets: tweet } = rows[0];
+    return { user, tweet };
   },
-  getAllTweets() {
-    return db.query.tweetsTable.findMany({
-      with: { user: true },
-      orderBy: (tweetsTable, { desc }) => desc(tweetsTable.createdAt),
-    });
+
+  getTweetsByUserId: async function (userId: number) {
+    const tweets = await db
+      .select()
+      .from(tweetsTable)
+      .where(eq(tweetsTable.userId, userId))
+      .orderBy(desc(tweetsTable.createdAt));
+    return tweets;
+  },
+
+  getTweetsByUserIdWithUser: async function (userId: number) {
+    const rows = await db
+      .select()
+      .from(tweetsTable)
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
+      .where(eq(tweetsTable.userId, userId))
+      .orderBy(desc(tweetsTable.createdAt));
+    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
+  },
+
+  getTweetsWithUser: async function (args: { verified?: boolean } = {}) {
+    const { verified } = args;
+    const rows = await db
+      .select()
+      .from(tweetsTable)
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
+      .where(verified ? eq(usersTable.verified, verified) : undefined)
+      .orderBy(desc(tweetsTable.createdAt));
+    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
   },
 };

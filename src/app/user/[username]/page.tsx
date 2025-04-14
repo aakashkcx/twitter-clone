@@ -15,7 +15,7 @@ export default async function UserPage({
   const user = await QUERIES.getUserByUsername(username);
   if (!user) return notFound();
 
-  const tweets = await QUERIES.getAllTweetsByUser(user.userId);
+  const tweets = await QUERIES.getTweetsByUserId(user.userId);
 
   return (
     <>
@@ -24,9 +24,9 @@ export default async function UserPage({
         {tweets.map((tweet) => (
           <Link
             key={tweet.tweetId}
-            href={`/@${tweet.user.username}/tweet/${tweet.tweetId}`}
+            href={`/@${user.username}/tweet/${tweet.tweetId}`}
           >
-            <TweetCard tweet={tweet} />
+            <TweetCard tweet={tweet} user={user} />
           </Link>
         ))}
       </div>

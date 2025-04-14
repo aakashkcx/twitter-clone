@@ -32,6 +32,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-verified: var(--verified);
 }
 
 :root {
@@ -53,6 +54,7 @@
   --border: var(--color-neutral-200);
   --input: var(--color-neutral-200);
   --ring: var(--color-neutral-400);
+  --verified: var(--color-blue-400);
 }
 
 .dark {

@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { BadgeCheck } from "lucide-react";
 
 export function UserCard({
   user,
@@ -6,6 +7,7 @@ export function UserCard({
   user: {
     username: string;
     displayName: string | null;
+    verified: boolean;
     email: string;
     createdAt: Date;
   };
@@ -15,17 +17,25 @@ export function UserCard({
       <CardContent className="flex flex-col">
         {user.displayName ? (
           <>
-            <span className="font-semibold">{user.displayName}</span>
-            <span className="text-muted-foreground">@{user.username}</span>
+            <div className="flex flex-row items-center gap-2">
+              <span className="text-xl font-semibold">{user.displayName}</span>
+              {user.verified && <BadgeCheck className="text-verified size-6" />}
+            </div>
+            <div>
+              <span className="text-muted-foreground">@{user.username}</span>
+            </div>
           </>
         ) : (
           <>
-            <span className="font-semibold">@{user.username}</span>
+            <div className="flex flex-row items-center gap-2">
+              <span className="text-xl font-semibold">@{user.username}</span>
+              {user.verified && <BadgeCheck className="text-verified size-6" />}
+            </div>
           </>
         )}
       </CardContent>
       <CardContent className="text-muted-foreground text-sm">
-        {user.createdAt.toLocaleString()}
+        {user.createdAt.toLocaleDateString()}
       </CardContent>
     </Card>
   );
