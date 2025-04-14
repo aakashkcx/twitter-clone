@@ -1,8 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { BadgeCheck } from "lucide-react";
 
 export function UserCard({
   user,
+  size = "md",
 }: {
   user: {
     username: string;
@@ -11,14 +13,19 @@ export function UserCard({
     email: string;
     createdAt: Date;
   };
+  size?: "md" | "lg";
 }) {
   return (
-    <Card className="flex flex-col gap-1">
+    <Card
+      className={cn(size === "lg" && "bg-background", "flex flex-col gap-1")}
+    >
       <CardContent className="flex flex-col">
         {user.displayName ? (
           <>
             <div className="flex flex-row items-center gap-2">
-              <span className="text-xl font-semibold">{user.displayName}</span>
+              <span className={cn(size === "lg" && "text-xl", "font-semibold")}>
+                {user.displayName}
+              </span>
               {user.verified && <BadgeCheck className="text-verified size-6" />}
             </div>
             <div>
@@ -28,7 +35,9 @@ export function UserCard({
         ) : (
           <>
             <div className="flex flex-row items-center gap-2">
-              <span className="text-xl font-semibold">@{user.username}</span>
+              <span className={cn(size === "lg" && "text-xl", "font-semibold")}>
+                @{user.username}
+              </span>
               {user.verified && <BadgeCheck className="text-verified size-6" />}
             </div>
           </>
