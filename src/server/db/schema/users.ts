@@ -21,3 +21,13 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   tweets: many(tweetsTable),
   likes: many(likesTable),
 }));
+
+export const publicUserCols = {
+  userId: usersTable.userId,
+  username: usersTable.username,
+  displayName: usersTable.displayName,
+  email: usersTable.email,
+  verified: usersTable.verified,
+  createdAt: usersTable.createdAt,
+  updatedAt: usersTable.updatedAt,
+};
