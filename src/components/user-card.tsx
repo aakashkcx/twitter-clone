@@ -1,6 +1,7 @@
+import { BadgeCheck } from "lucide-react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { BadgeCheck } from "lucide-react";
 
 export function UserCard({
   user,
