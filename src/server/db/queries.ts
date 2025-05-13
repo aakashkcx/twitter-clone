@@ -13,7 +13,7 @@ export const QUERIES = {
     return users[0];
   },
 
-  getTweetById: async function (tweetId: number) {
+  getTweetById: async function (tweetId: string) {
     const tweets = await db
       .select()
       .from(tweetsTable)
@@ -22,7 +22,7 @@ export const QUERIES = {
     return tweets[0];
   },
 
-  getTweetByIdWithUser: async function (tweetId: number) {
+  getTweetByIdWithUser: async function (tweetId: string) {
     const rows = await db
       .select()
       .from(tweetsTable)
@@ -34,7 +34,7 @@ export const QUERIES = {
     return { user, tweet };
   },
 
-  getTweetsByUserId: async function (userId: number) {
+  getTweetsByUserId: async function (userId: string) {
     const tweets = await db
       .select()
       .from(tweetsTable)
@@ -43,7 +43,7 @@ export const QUERIES = {
     return tweets;
   },
 
-  getTweetsByUserIdWithUser: async function (userId: number) {
+  getTweetsByUserIdWithUser: async function (userId: string) {
     const rows = await db
       .select()
       .from(tweetsTable)
@@ -66,7 +66,7 @@ export const QUERIES = {
     return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
   },
 
-  getRepliesByTweetId: async function (tweetId: number) {
+  getRepliesByTweetId: async function (tweetId: string) {
     const rows = await db
       .select()
       .from(tweetsTable)
@@ -75,7 +75,7 @@ export const QUERIES = {
     return rows;
   },
 
-  getRepliesByTweetIdWithUser: async function (tweetId: number) {
+  getRepliesByTweetIdWithUser: async function (tweetId: string) {
     const rows = await db
       .select()
       .from(tweetsTable)
