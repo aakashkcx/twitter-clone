@@ -12,7 +12,6 @@ export const usersTable = pgTable("users", {
   email: text("email").notNull().unique(),
   verified: boolean("verified").notNull().default(false),
   hash: text("hash").notNull(),
-  salt: text("salt").notNull(),
   createdAt,
   updatedAt,
 });
