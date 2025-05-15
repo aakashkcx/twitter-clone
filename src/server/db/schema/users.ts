@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { getTableColumns, relations } from "drizzle-orm";
 import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 import { likesTable } from "@/server/db/schema/likes";
@@ -21,12 +21,5 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   likes: many(likesTable),
 }));
 
-export const publicUserCols = {
-  userId: usersTable.userId,
-  username: usersTable.username,
-  displayName: usersTable.displayName,
-  email: usersTable.email,
-  verified: usersTable.verified,
-  createdAt: usersTable.createdAt,
-  updatedAt: usersTable.updatedAt,
-};
+const { hash, ...rest } = getTableColumns(usersTable);
+export const publicUserCols = { ...rest };
