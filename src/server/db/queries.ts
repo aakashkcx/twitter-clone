@@ -81,3 +81,28 @@ export const QUERIES = {
     return rows;
   },
 };
+
+export const MUTATIONS = {};
+
+export const AUTH_QUERIES = {
+  getUserByUsername: async function (username: string) {
+    const users = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.username, username));
+    if (users.length === 0) return undefined;
+    return users[0];
+  },
+};
+
+export const AUTH_MUTATIONS = {
+  createUser: async function (user: typeof usersTable.$inferInsert) {
+    const newUser = await db
+      .insert(usersTable)
+      .values(user)
+      .onConflictDoNothing()
+      .returning();
+    if (newUser.length === 0) return undefined;
+    return newUser[0];
+  },
+};
