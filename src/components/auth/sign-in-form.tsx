@@ -1,9 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,12 +30,20 @@ export function SignInForm() {
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
     const error = await signInAction(values);
-    console.log(error);
+    form.setError("root", { message: error });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {form.formState.errors.root && (
+          <Alert variant="destructive" className="border-destructive">
+            <AlertCircle className="size-4" />
+            <AlertDescription>
+              {form.formState.errors.root.message}
+            </AlertDescription>
+          </Alert>
+        )}
         <FormField
           control={form.control}
           name="username"
