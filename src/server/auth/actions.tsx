@@ -3,24 +3,34 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { hashPassword, verifyPassword } from "@/server/auth/hash";
 import { signInSchema, signUpSchema } from "@/server/auth/schemas";
+import { AUTH_MUTATIONS, AUTH_QUERIES } from "@/server/db/queries";
 
 export async function signInAction(unsafeData: z.infer<typeof signInSchema>) {
   const { success, data } = signInSchema.safeParse(unsafeData);
+  if (!success) return "Invalid data.";
 
-  if (!success) return false;
+  const user = await AUTH_QUERIES.getUserByUsername(data.username);
+  if (!user) return "Invalid username or password.";
 
-  console.log(data);
+  const result = await verifyPassword(user.hash, data.password);
+  if (!result) return "Invalid username or password.";
+
+  console.log("sign-in", user);
 
   redirect("/");
 }
 
 export async function signUpAction(unsafeData: z.infer<typeof signUpSchema>) {
   const { success, data } = signUpSchema.safeParse(unsafeData);
+  if (!success) return "Invalid data.";
 
-  if (!success) return false;
+  const hash = await hashPassword(data.password);
+  const user = await AUTH_MUTATIONS.createUser({ ...data, hash });
+  if (!user) return "Unable to create user.";
 
-  console.log(data);
+  console.log("sign-up", user);
 
   redirect("/");
 }
