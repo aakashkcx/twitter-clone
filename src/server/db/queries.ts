@@ -1,19 +1,28 @@
 import { desc, eq } from "drizzle-orm";
 
 import { db } from "@/server/db";
-import { tweetsTable, usersTable } from "@/server/db/schema";
+import { publicUserCols, tweetsTable, usersTable } from "@/server/db/schema";
 
 export const QUERIES = {
+  getUserById: async function (userId: string) {
+    const users = await db
+      .select(publicUserCols)
+      .from(usersTable)
+      .where(eq(usersTable.userId, userId));
+    if (users.length === 0) return undefined;
+    return users[0];
+  },
+
   getUserByUsername: async function (username: string) {
     const users = await db
-      .select()
+      .select(publicUserCols)
       .from(usersTable)
       .where(eq(usersTable.username, username));
     if (users.length === 0) return undefined;
     return users[0];
   },
 
-  getTweetById: async function (tweetId: number) {
+  getTweetById: async function (tweetId: string) {
     const tweets = await db
       .select()
       .from(tweetsTable)
@@ -22,19 +31,17 @@ export const QUERIES = {
     return tweets[0];
   },
 
-  getTweetByIdWithUser: async function (tweetId: number) {
+  getTweetByIdWithUser: async function (tweetId: string) {
     const rows = await db
-      .select()
+      .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.tweetId, tweetId));
     if (rows.length === 0) return undefined;
-
-    const { users: user, tweets: tweet } = rows[0];
-    return { user, tweet };
+    return rows[0];
   },
 
-  getTweetsByUserId: async function (userId: number) {
+  getTweetsByUserId: async function (userId: string) {
     const tweets = await db
       .select()
       .from(tweetsTable)
@@ -43,30 +50,28 @@ export const QUERIES = {
     return tweets;
   },
 
-  getTweetsByUserIdWithUser: async function (userId: number) {
+  getTweetsByUserIdWithUser: async function (userId: string) {
     const rows = await db
-      .select()
+      .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.userId, userId))
       .orderBy(desc(tweetsTable.createdAt));
-
-    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
+    return rows;
   },
 
   getTweetsWithUser: async function (args: { verified?: boolean } = {}) {
     const { verified } = args;
     const rows = await db
-      .select()
+      .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(verified ? eq(usersTable.verified, verified) : undefined)
       .orderBy(desc(tweetsTable.createdAt));
-
-    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
+    return rows;
   },
 
-  getRepliesByTweetId: async function (tweetId: number) {
+  getRepliesByTweetId: async function (tweetId: string) {
     const rows = await db
       .select()
       .from(tweetsTable)
@@ -75,14 +80,38 @@ export const QUERIES = {
     return rows;
   },
 
-  getRepliesByTweetIdWithUser: async function (tweetId: number) {
+  getRepliesByTweetIdWithUser: async function (tweetId: string) {
     const rows = await db
-      .select()
+      .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.parentId, tweetId))
       .orderBy(desc(tweetsTable.createdAt));
+    return rows;
+  },
+};
 
-    return rows.map(({ users: user, tweets: tweet }) => ({ user, tweet }));
+export const MUTATIONS = {};
+
+export const AUTH_QUERIES = {
+  getUserByUsername: async function (username: string) {
+    const users = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.username, username));
+    if (users.length === 0) return undefined;
+    return users[0];
+  },
+};
+
+export const AUTH_MUTATIONS = {
+  createUser: async function (user: typeof usersTable.$inferInsert) {
+    const newUser = await db
+      .insert(usersTable)
+      .values(user)
+      .onConflictDoNothing()
+      .returning();
+    if (newUser.length === 0) return undefined;
+    return newUser[0];
   },
 };

@@ -10,16 +10,13 @@ export default async function UserTweetPage({
 }: {
   params: Promise<{ username: string; tweetId: string }>;
 }) {
-  const { username, tweetId: tweetIdString } = await params;
+  const { username, tweetId } = await params;
 
-  const tweetId = Number(tweetIdString);
-  if (Number.isNaN(tweetId)) return notFound();
+  const res = await QUERIES.getTweetByIdWithUser(tweetId);
+  if (!res) return notFound();
 
-  const user = await QUERIES.getUserByUsername(username);
-  if (!user) return notFound();
-
-  const tweet = await QUERIES.getTweetById(tweetId);
-  if (!tweet || tweet.userId !== user.userId) return notFound();
+  const { user, tweet } = res;
+  if (user.username !== username) return notFound();
 
   const parent = tweet.parentId
     ? await QUERIES.getTweetByIdWithUser(tweet.parentId)
@@ -33,12 +30,20 @@ export default async function UserTweetPage({
         <UserCard user={user} />
       </Link>
       {parent && (
-        <Link href={`/@${parent.user.username}/tweet/${parent.tweet.tweetId}`}>
-          <TweetCard tweet={parent.tweet} user={parent.user} />
-        </Link>
+        <div className="flex flex-col gap-3">
+          <div className="text-muted-foreground font-medium">Replying to:</div>
+          <Link
+            href={`/@${parent.user.username}/tweet/${parent.tweet.tweetId}`}
+          >
+            <TweetCard tweet={parent.tweet} user={parent.user} />
+          </Link>
+        </div>
       )}
       <TweetCard tweet={tweet} user={user} size="lg" />
       <div className="flex flex-col gap-3">
+        {replies.length !== 0 && (
+          <div className="text-muted-foreground font-medium">Replies:</div>
+        )}
         {replies.map((reply) => (
           <Link
             key={reply.tweet.tweetId}

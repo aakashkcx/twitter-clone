@@ -21,6 +21,7 @@ export default async function UserPage({
     <>
       <UserCard user={user} size="lg" />
       <div className="flex flex-col gap-3">
+        <div className="text-muted-foreground font-medium">Tweets:</div>
         {tweets.map((tweet) => (
           <Link
             key={tweet.tweetId}
