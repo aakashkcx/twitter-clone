@@ -4,6 +4,15 @@ import { db } from "@/server/db";
 import { publicUserCols, tweetsTable, usersTable } from "@/server/db/schema";
 
 export const QUERIES = {
+  getUserById: async function (userId: string) {
+    const users = await db
+      .select(publicUserCols)
+      .from(usersTable)
+      .where(eq(usersTable.userId, userId));
+    if (users.length === 0) return undefined;
+    return users[0];
+  },
+
   getUserByUsername: async function (username: string) {
     const users = await db
       .select(publicUserCols)
