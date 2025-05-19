@@ -1,6 +1,6 @@
 import { BadgeCheck } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export function UserCard({
@@ -20,7 +20,7 @@ export function UserCard({
     <Card
       className={cn(size === "lg" && "bg-background", "flex flex-col gap-1")}
     >
-      <CardContent className="flex flex-col">
+      <div className="flex flex-col">
         {user.displayName ? (
           <>
             <div className="flex flex-row items-center gap-2">
@@ -43,10 +43,10 @@ export function UserCard({
             </div>
           </>
         )}
-      </CardContent>
-      <CardContent className="text-muted-foreground text-sm">
+      </div>
+      <div className="text-muted-foreground text-sm">
         {user.createdAt.toLocaleDateString()}
-      </CardContent>
+      </div>
     </Card>
   );
 }
