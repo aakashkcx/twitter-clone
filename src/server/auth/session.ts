@@ -34,17 +34,15 @@ export async function createSession(userId: string) {
   cookieStore.set(COOKIE_NAME, token, { ...COOKIE_OPTIONS, expires });
 }
 
-export const verifySession = cache(async function (): Promise<
-  Session | undefined
-> {
+export const verifySession = cache(async function (): Promise<Session | null> {
   const cookieStore = await cookies();
 
   const token = cookieStore.get(COOKIE_NAME)?.value;
-  if (!token) return undefined;
+  if (!token) return null;
 
   const unsafeSession = await decodeToken(token);
   const { success, data } = sessionSchema.safeParse(unsafeSession);
-  if (!success) return undefined;
+  if (!success) return null;
 
   return data;
 });

@@ -4,7 +4,7 @@ import { TweetCard } from "@/components/tweet-card";
 import { QUERIES } from "@/server/db/queries";
 
 export default async function HomePage() {
-  const tweets = await QUERIES.getTweetsWithUser({ verified: true });
+  const tweets = await QUERIES.getVerifiedTweetsWithUser();
 
   return (
     <div className="flex flex-col gap-3">
