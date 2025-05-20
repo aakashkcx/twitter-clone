@@ -15,7 +15,7 @@ export function UserCard({
   };
 }) {
   return (
-    <Card className="flex-row gap-4">
+    <Card className="flex flex-row gap-4">
       <UserAvatar user={user} className="size-15 text-3xl" />
       <div className="flex flex-col gap-1">
         <div className="flex flex-row items-center gap-2">
