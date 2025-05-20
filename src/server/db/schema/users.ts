@@ -8,7 +8,7 @@ import { createdAt, updatedAt } from "@/server/db/schema/utils";
 export const usersTable = pgTable("users", {
   userId: uuid("user_id").primaryKey().defaultRandom(),
   username: text("username").notNull().unique(),
-  displayName: text("display_name"),
+  displayName: text("display_name").notNull(),
   email: text("email").notNull().unique(),
   verified: boolean("verified").notNull().default(false),
   hash: text("hash").notNull(),
