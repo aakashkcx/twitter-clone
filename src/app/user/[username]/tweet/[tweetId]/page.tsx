@@ -39,7 +39,7 @@ export default async function UserTweetPage({
           </Link>
         </div>
       )}
-      <TweetCard tweet={tweet} user={user} size="lg" />
+      <TweetCard tweet={tweet} user={user} />
       <div className="flex flex-col gap-3">
         {replies.length !== 0 && (
           <div className="text-muted-foreground font-medium">Replies:</div>
