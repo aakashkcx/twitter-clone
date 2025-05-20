@@ -19,7 +19,7 @@ export default async function UserPage({
 
   return (
     <>
-      <UserCard user={user} size="lg" />
+      <UserCard user={user} />
       <div className="flex flex-col gap-3">
         <div className="text-muted-foreground font-medium">Tweets:</div>
         {tweets.map((tweet) => (
