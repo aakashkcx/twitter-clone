@@ -19,8 +19,7 @@ export const signUpSchema = z
     displayName: z
       .string()
       .trim()
-      .min(3, { message: "Display name must be at least 3 characters." })
-      .optional(),
+      .min(3, { message: "Display name must be at least 3 characters." }),
     email: z.string().trim().email({ message: "Invalid email address." }),
     password: z
       .string()
