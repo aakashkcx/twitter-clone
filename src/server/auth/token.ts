@@ -23,6 +23,6 @@ export async function decodeToken(token: string) {
     });
     return payload;
   } catch (error) {
-    return undefined;
+    return null;
   }
 }

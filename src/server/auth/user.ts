@@ -7,7 +7,7 @@ import { QUERIES } from "@/server/db/queries";
 
 export const getCurrentUser = cache(async function () {
   const session = await verifySession();
-  if (!session) return undefined;
+  if (!session) return null;
 
   const user = await QUERIES.getUserById(session.userId);
 

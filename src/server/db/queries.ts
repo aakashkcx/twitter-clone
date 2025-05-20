@@ -9,7 +9,7 @@ export const QUERIES = {
       .select(publicUserCols)
       .from(usersTable)
       .where(eq(usersTable.userId, userId));
-    if (users.length === 0) return undefined;
+    if (users.length === 0) return null;
     return users[0];
   },
 
@@ -18,7 +18,7 @@ export const QUERIES = {
       .select(publicUserCols)
       .from(usersTable)
       .where(eq(usersTable.username, username));
-    if (users.length === 0) return undefined;
+    if (users.length === 0) return null;
     return users[0];
   },
 
@@ -27,7 +27,7 @@ export const QUERIES = {
       .select()
       .from(tweetsTable)
       .where(eq(tweetsTable.tweetId, tweetId));
-    if (tweets.length === 0) return undefined;
+    if (tweets.length === 0) return null;
     return tweets[0];
   },
 
@@ -37,7 +37,7 @@ export const QUERIES = {
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.tweetId, tweetId));
-    if (rows.length === 0) return undefined;
+    if (rows.length === 0) return null;
     return rows[0];
   },
 
@@ -60,13 +60,21 @@ export const QUERIES = {
     return rows;
   },
 
-  getTweetsWithUser: async function (args: { verified?: boolean } = {}) {
-    const { verified } = args;
+  getTweetsWithUser: async function () {
     const rows = await db
       .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
       .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
-      .where(verified ? eq(usersTable.verified, verified) : undefined)
+      .orderBy(desc(tweetsTable.createdAt));
+    return rows;
+  },
+
+  getVerifiedTweetsWithUser: async function () {
+    const rows = await db
+      .select({ user: publicUserCols, tweet: tweetsTable })
+      .from(tweetsTable)
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
+      .where(eq(usersTable.verified, true))
       .orderBy(desc(tweetsTable.createdAt));
     return rows;
   },
@@ -99,7 +107,7 @@ export const AUTH_QUERIES = {
       .select()
       .from(usersTable)
       .where(eq(usersTable.username, username));
-    if (users.length === 0) return undefined;
+    if (users.length === 0) return null;
     return users[0];
   },
 };
@@ -111,7 +119,7 @@ export const AUTH_MUTATIONS = {
       .values(user)
       .onConflictDoNothing()
       .returning();
-    if (newUser.length === 0) return undefined;
+    if (newUser.length === 0) return null;
     return newUser[0];
   },
 };
