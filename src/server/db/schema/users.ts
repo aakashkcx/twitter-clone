@@ -21,5 +21,6 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   likes: many(likesTable),
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { hash, ...rest } = getTableColumns(usersTable);
 export const publicUserCols = { ...rest };
