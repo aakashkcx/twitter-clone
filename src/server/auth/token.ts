@@ -22,7 +22,7 @@ export async function decodeToken(token: string) {
       algorithms: [TOKEN_ALGORITHM],
     });
     return payload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
