@@ -99,7 +99,17 @@ export const QUERIES = {
   },
 };
 
-export const MUTATIONS = {};
+export const MUTATIONS = {
+  createTweet: async function (tweet: typeof tweetsTable.$inferInsert) {
+    const newTweet = await db
+      .insert(tweetsTable)
+      .values(tweet)
+      .onConflictDoNothing()
+      .returning();
+    if (newTweet.length === 0) return null;
+    return newTweet[0];
+  },
+};
 
 export const AUTH_QUERIES = {
   getUserByUsername: async function (username: string) {
