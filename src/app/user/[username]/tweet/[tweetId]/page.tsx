@@ -2,6 +2,7 @@ import { BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CreateTweetCard } from "@/components/create-tweet-card";
 import { TweetCard } from "@/components/tweet-card";
 import { Card } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
@@ -63,6 +64,11 @@ export default async function UserTweetPage({
           </div>
         </div>
       </Card>
+
+      <CreateTweetCard
+        parentId={tweet.tweetId}
+        placeholder={`Reply to @${user.username}`}
+      />
 
       {replies.length > 0 && (
         <>
