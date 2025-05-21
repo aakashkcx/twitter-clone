@@ -67,7 +67,7 @@ export default async function UserTweetPage({
       {replies.length > 0 && (
         <>
           <div className="text-muted-foreground text-center text-sm font-medium">
-            Replies
+            Replies ({replies.length})
           </div>
           <div className="flex flex-col gap-3">
             {replies.map((reply) => (
