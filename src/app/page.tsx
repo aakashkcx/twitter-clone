@@ -1,8 +1,7 @@
 import Link from "next/link";
 
+import { CreateTweetCard } from "@/components/create-tweet-card";
 import { TweetCard } from "@/components/tweet-card";
-import { TweetForm } from "@/components/tweet-form";
-import { Card } from "@/components/ui/card";
 import { QUERIES } from "@/server/db/queries";
 
 export default async function HomePage() {
@@ -10,9 +9,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Card>
-        <TweetForm placeholder="What is happening?" />
-      </Card>
+      <CreateTweetCard placeholder="What is happening?" />
 
       <div className="flex flex-col gap-3">
         {tweets.map(({ tweet, user }) => (
