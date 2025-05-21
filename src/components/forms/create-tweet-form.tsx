@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { createTweetAction } from "@/server/tweets/actions";
 import { createTweetSchema } from "@/server/tweets/schema";
 
-export function TweetForm({
+export function CreateTweetForm({
   parentId,
   placeholder,
 }: {
