@@ -39,7 +39,10 @@ export function SignUpForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
         {form.formState.errors.root && (
           <Alert variant="destructive" className="border-destructive">
             <AlertCircle className="size-4" />
@@ -48,6 +51,7 @@ export function SignUpForm() {
             </AlertDescription>
           </Alert>
         )}
+
         <FormField
           control={form.control}
           name="username"
@@ -61,6 +65,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="displayName"
@@ -77,6 +82,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="email"
@@ -90,6 +96,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
@@ -103,6 +110,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="confirmPassword"
@@ -116,7 +124,10 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Sign Up</Button>
+
+        <Button type="submit" className="self-start">
+          Sign Up
+        </Button>
       </form>
     </Form>
   );
