@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Twitter Clone
 
-## Getting Started
+This project features a full-stack web application that clones the core functionality of the social media platform Twitter (now known as X).
 
-First, run the development server:
+The project is built with the following technologies:
+
+- A [Next.js](https://nextjs.org/) web application hosted on [Vercel](https://vercel.com/)
+- React [server components](https://react.dev/reference/rsc/server-components) for server-side UI rendering and caching
+- Next.js [server actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) for asynchronous server API calls
+- A serverless [PostgreSQL](https://www.postgresql.org/) database hosted on [Neon](https://neon.tech/)
+- [Drizzle](https://orm.drizzle.team/) for a TypeScript SQL-like ORM
+- [Tailwind CSS](https://tailwindcss.com/) utility classes
+- Re-usable and customisable components by [shadcn/ui](https://ui.shadcn.com/)
+- Stateless session management using [JSON Web Tokens](https://jwt.io/)
+- Light/dark mode by [next-themes](https://github.com/pacocoursey/next-themes)
+- [Zod](https://zod.dev/) schema validation with [React Hook Form](https://react-hook-form.com/)
+
+## Installation
+
+Clone the git repository:
 
 ```bash
-npm run dev
+git clone https://github.com/aakashkcx/twitter-clone.git
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:aakashkcx/twitter-clone.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Load the appropriate environment variables, as seen in `.env.example`:
 
-## Learn More
+```sh
+DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
 
-To learn more about Next.js, take a look at the following resources:
+SESSION_TOKEN_SECRET=secret
+SESSION_TOKEN_EXPIRY=1h
+SESSION_COOKIE_NAME=session
+SESSION_COOKIE_EXPIRY=3600
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Apply the database schema:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm db:push
+```
 
-## Deploy on Vercel
+Run development server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Or, deploy the application:
+
+```bash
+pnpm build
+pnpm start
+```
+
+Optional: run Drizzle Studio to explore the database:
+
+```bash
+db:studio
+```
+
+---
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
