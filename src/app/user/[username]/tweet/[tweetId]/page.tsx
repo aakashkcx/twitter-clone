@@ -6,6 +6,7 @@ import { CreateTweetCard } from "@/components/create-tweet-card";
 import { TweetCard } from "@/components/tweet-card";
 import { Card } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
+import { getCurrentUser } from "@/server/auth/user";
 import { QUERIES } from "@/server/db/queries";
 
 export default async function UserTweetPage({
@@ -21,7 +22,8 @@ export default async function UserTweetPage({
   const { user, tweet } = res;
   if (user.username !== username) return notFound();
 
-  const [parent, replies] = await Promise.all([
+  const [currentUser, parent, replies] = await Promise.all([
+    getCurrentUser(),
     tweet.parentId ? QUERIES.getTweetByIdWithUser(tweet.parentId) : null,
     QUERIES.getRepliesByTweetIdWithUser(tweet.tweetId),
   ]);
@@ -65,10 +67,13 @@ export default async function UserTweetPage({
         </div>
       </Card>
 
-      <CreateTweetCard
-        parentId={tweet.tweetId}
-        placeholder={`Reply to @${user.username}`}
-      />
+      {currentUser && (
+        <CreateTweetCard
+          user={currentUser}
+          parentId={tweet.tweetId}
+          placeholder={`Reply to @${user.username}`}
+        />
+      )}
 
       {replies.length > 0 && (
         <>

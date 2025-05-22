@@ -42,7 +42,7 @@ export function CreateTweetForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3"
+        className="flex w-full flex-col gap-3"
       >
         {form.formState.errors.root && (
           <Alert variant="destructive" className="border-destructive">
@@ -68,7 +68,7 @@ export function CreateTweetForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="self-end">
+        <Button type="submit" className="self-start">
           Tweet
         </Button>
       </form>
