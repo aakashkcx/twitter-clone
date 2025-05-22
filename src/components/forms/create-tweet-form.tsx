@@ -52,6 +52,7 @@ export function CreateTweetForm({
             </AlertDescription>
           </Alert>
         )}
+
         <FormField
           control={form.control}
           name="text"
@@ -68,6 +69,7 @@ export function CreateTweetForm({
             </FormItem>
           )}
         />
+
         <Button type="submit" className="self-start">
           Tweet
         </Button>

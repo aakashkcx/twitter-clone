@@ -37,6 +37,7 @@ export default async function UserTweetPage({
           >
             <TweetCard tweet={parent.tweet} user={parent.user} />
           </Link>
+
           <div className="text-muted-foreground text-center text-sm font-medium">
             Reply
           </div>
@@ -59,6 +60,7 @@ export default async function UserTweetPage({
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
         </Link>
+
         <div className="flex flex-col gap-1">
           <div className="text-xl">{tweet.text}</div>
           <div className="text-muted-foreground">
@@ -80,6 +82,7 @@ export default async function UserTweetPage({
           <div className="text-muted-foreground text-center text-sm font-medium">
             Replies ({replies.length})
           </div>
+
           <div className="flex flex-col gap-3">
             {replies.map((reply) => (
               <Link
