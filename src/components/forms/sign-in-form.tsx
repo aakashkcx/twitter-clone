@@ -35,7 +35,10 @@ export function SignInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
         {form.formState.errors.root && (
           <Alert variant="destructive" className="border-destructive">
             <AlertCircle className="size-4" />
@@ -44,6 +47,7 @@ export function SignInForm() {
             </AlertDescription>
           </Alert>
         )}
+
         <FormField
           control={form.control}
           name="username"
@@ -57,6 +61,7 @@ export function SignInForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="password"
@@ -70,7 +75,10 @@ export function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Sign In</Button>
+
+        <Button type="submit" className="self-start">
+          Sign In
+        </Button>
       </form>
     </Form>
   );
