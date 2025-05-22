@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
 const GRAVATAR_AVATAR = "https://www.gravatar.com/avatar/";
-const GRAVATAR_AVATAR_PARAMS = "?d=404&s=200";
+const GRAVATAR_AVATAR_PARAMS = "?d=404&s=160";
 
 export const GRAVATAR_LINK = "https://www.gravatar.com/emails/";
 
