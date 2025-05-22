@@ -34,7 +34,7 @@ async function NavLinks() {
       <>
         <button
           onClick={signOutAction}
-          className="text-muted-foreground hover:text-primary p-2 transition-colors"
+          className="text-muted-foreground hover:text-foreground p-2 transition-colors"
         >
           Sign Out
         </button>
@@ -42,7 +42,7 @@ async function NavLinks() {
           href={`/@${user.username}`}
           className="group flex flex-row items-center gap-1"
         >
-          <span className="text-muted-foreground group-hover:text-primary p-2 transition-colors">
+          <span className="text-muted-foreground group-hover:text-foreground p-2 transition-colors">
             @{user.username}
           </span>
           <UserAvatar
@@ -58,13 +58,13 @@ async function NavLinks() {
     <>
       <Link
         href="/sign-in"
-        className="text-muted-foreground hover:text-primary p-2 transition-colors"
+        className="text-muted-foreground hover:text-foreground p-2 transition-colors"
       >
         Sign In
       </Link>
       <Link
         href="/sign-up"
-        className="text-muted-foreground hover:text-primary p-2 transition-colors"
+        className="text-muted-foreground hover:text-foreground p-2 transition-colors"
       >
         Sign Up
       </Link>
