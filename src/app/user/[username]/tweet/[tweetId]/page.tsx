@@ -1,4 +1,4 @@
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Heart, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -22,10 +22,11 @@ export default async function UserTweetPage({
   const { user, tweet } = res;
   if (user.username !== username) return notFound();
 
-  const [currentUser, parent, replies] = await Promise.all([
+  const [currentUser, parent, replies, likeCount] = await Promise.all([
     getCurrentUser(),
     tweet.parentId ? QUERIES.getTweetByIdWithUser(tweet.parentId) : null,
     QUERIES.getRepliesByTweetIdWithUser(tweet.tweetId),
+    QUERIES.getLikeCountByTweetId(tweet.tweetId),
   ]);
 
   return (
@@ -50,6 +51,7 @@ export default async function UserTweetPage({
           className="group flex flex-row items-center gap-4"
         >
           <UserAvatar user={user} className="size-20 text-3xl" />
+
           <div className="flex flex-col">
             <div className="flex flex-row items-center gap-2">
               <span className="text-lg font-semibold group-hover:underline">
@@ -57,14 +59,26 @@ export default async function UserTweetPage({
               </span>
               {user.verified && <BadgeCheck className="text-verified size-6" />}
             </div>
+
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
         </Link>
 
-        <div className="flex flex-col gap-1">
-          <div className="text-xl">{tweet.text}</div>
-          <div className="text-muted-foreground">
-            {tweet.createdAt.toLocaleString()}
+        <div className="text-xl">{tweet.text}</div>
+
+        <div className="text-muted-foreground">
+          {tweet.createdAt.toLocaleString()}
+        </div>
+
+        <div className="text-muted-foreground flex flex-row gap-10">
+          <div className="flex flex-row items-center gap-2">
+            <MessageCircle className="size-5" />
+            {replies.length}
+          </div>
+
+          <div className="flex flex-row items-center gap-2">
+            <Heart className="size-5" />
+            {likeCount}
           </div>
         </div>
       </Card>

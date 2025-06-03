@@ -1,7 +1,12 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 import { db } from "@/server/db";
-import { publicUserCols, tweetsTable, usersTable } from "@/server/db/schema";
+import {
+  likesTable,
+  publicUserCols,
+  tweetsTable,
+  usersTable,
+} from "@/server/db/schema";
 
 export const QUERIES = {
   getUserById: async function (userId: string) {
@@ -101,6 +106,22 @@ export const QUERIES = {
       .where(eq(tweetsTable.parentId, tweetId))
       .orderBy(desc(tweetsTable.createdAt));
     return rows;
+  },
+
+  getLikeById: async function (userId: string, tweetId: string) {
+    const like = await db
+      .select()
+      .from(likesTable)
+      .where(
+        and(eq(likesTable.userId, userId), eq(likesTable.tweetId, tweetId)),
+      );
+    if (like.length === 0) return null;
+    return like[0];
+  },
+
+  getLikeCountByTweetId: async function (tweetId: string) {
+    const count = await db.$count(likesTable, eq(likesTable.tweetId, tweetId));
+    return count;
   },
 };
 
