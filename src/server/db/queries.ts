@@ -41,6 +41,11 @@ export const QUERIES = {
     return rows[0];
   },
 
+  getTweetCountByUserId: async function (userId: string) {
+    const count = await db.$count(tweetsTable, eq(tweetsTable.userId, userId));
+    return count;
+  },
+
   getTweetsByUserId: async function (userId: string) {
     const tweets = await db
       .select()
