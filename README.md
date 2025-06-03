@@ -31,7 +31,7 @@ Install dependencies:
 pnpm install
 ```
 
-Load the appropriate environment variables, as seen in `.env.example`:
+Load the appropriate environment variables, as seen in [`.env.example`](./.env.example):
 
 ```sh
 DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
