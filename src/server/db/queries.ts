@@ -90,12 +90,20 @@ export const QUERIES = {
   },
 
   getRepliesByTweetId: async function (tweetId: string) {
-    const rows = await db
+    const replies = await db
       .select()
       .from(tweetsTable)
       .where(eq(tweetsTable.parentId, tweetId))
       .orderBy(desc(tweetsTable.createdAt));
-    return rows;
+    return replies;
+  },
+
+  getReplyCountByTweetId: async function (tweetId: string) {
+    const replyCount = await db.$count(
+      tweetsTable,
+      eq(tweetsTable.parentId, tweetId),
+    );
+    return replyCount;
   },
 
   getRepliesByTweetIdWithUser: async function (tweetId: string) {
