@@ -40,15 +40,10 @@ export const QUERIES = {
     const rows = await db
       .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
-      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
-      .where(eq(tweetsTable.tweetId, tweetId));
+      .where(eq(tweetsTable.tweetId, tweetId))
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId));
     if (rows.length === 0) return null;
     return rows[0];
-  },
-
-  getTweetCountByUserId: async function (userId: string) {
-    const count = await db.$count(tweetsTable, eq(tweetsTable.userId, userId));
-    return count;
   },
 
   getTweetsByUserId: async function (userId: string) {
@@ -60,12 +55,20 @@ export const QUERIES = {
     return tweets;
   },
 
+  getTweetCountByUserId: async function (userId: string) {
+    const tweetCount = await db.$count(
+      tweetsTable,
+      eq(tweetsTable.userId, userId),
+    );
+    return tweetCount;
+  },
+
   getTweetsByUserIdWithUser: async function (userId: string) {
     const rows = await db
       .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
-      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.userId, userId))
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .orderBy(desc(tweetsTable.createdAt));
     return rows;
   },
@@ -83,8 +86,8 @@ export const QUERIES = {
     const rows = await db
       .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
-      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(usersTable.verified, true))
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .orderBy(desc(tweetsTable.createdAt));
     return rows;
   },
@@ -110,8 +113,8 @@ export const QUERIES = {
     const rows = await db
       .select({ user: publicUserCols, tweet: tweetsTable })
       .from(tweetsTable)
-      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .where(eq(tweetsTable.parentId, tweetId))
+      .innerJoin(usersTable, eq(tweetsTable.userId, usersTable.userId))
       .orderBy(desc(tweetsTable.createdAt));
     return rows;
   },
@@ -147,8 +150,11 @@ export const QUERIES = {
   },
 
   getLikeCountByTweetId: async function (tweetId: string) {
-    const count = await db.$count(likesTable, eq(likesTable.tweetId, tweetId));
-    return count;
+    const likeCount = await db.$count(
+      likesTable,
+      eq(likesTable.tweetId, tweetId),
+    );
+    return likeCount;
   },
 };
 
