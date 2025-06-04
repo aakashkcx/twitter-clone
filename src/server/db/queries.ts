@@ -127,6 +127,25 @@ export const QUERIES = {
     return like[0];
   },
 
+  getLikesByTweetId: async function (tweetId: string) {
+    const likes = await db
+      .select()
+      .from(likesTable)
+      .where(eq(likesTable.tweetId, tweetId))
+      .orderBy(desc(likesTable.createdAt));
+    return likes;
+  },
+
+  getLikesByTweetIdWithUser: async function (tweetId: string) {
+    const rows = await db
+      .select({ user: publicUserCols, like: likesTable })
+      .from(likesTable)
+      .where(eq(likesTable.tweetId, tweetId))
+      .innerJoin(usersTable, eq(likesTable.userId, usersTable.userId))
+      .orderBy(desc(likesTable.createdAt));
+    return rows;
+  },
+
   getLikeCountByTweetId: async function (tweetId: string) {
     const count = await db.$count(likesTable, eq(likesTable.tweetId, tweetId));
     return count;
