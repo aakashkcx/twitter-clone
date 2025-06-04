@@ -135,6 +135,27 @@ export const MUTATIONS = {
     if (newTweet.length === 0) return null;
     return newTweet[0];
   },
+
+  createLike: async function (like: typeof likesTable.$inferInsert) {
+    const newLike = await db
+      .insert(likesTable)
+      .values(like)
+      .onConflictDoNothing()
+      .returning();
+    if (newLike.length === 0) return null;
+    return newLike[0];
+  },
+
+  deleteLike: async function (userId: string, tweetId: string) {
+    const deletedLike = await db
+      .delete(likesTable)
+      .where(
+        and(eq(likesTable.userId, userId), eq(likesTable.tweetId, tweetId)),
+      )
+      .returning();
+    if (deletedLike.length === 0) return null;
+    return deletedLike[0];
+  },
 };
 
 export const AUTH_QUERIES = {
