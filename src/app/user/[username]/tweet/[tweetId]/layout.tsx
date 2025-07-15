@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { LikeButtonForm } from "@/components/forms/like-button-form";
 import { TweetCard } from "@/components/tweet-card";
-import { Button } from "@/components/ui/button";
+import { TweetPageLinks } from "@/components/tweet-page-links";
 import { Card } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
 import { getCurrentUser } from "@/server/auth/user";
@@ -93,18 +93,7 @@ export default async function UserTweetLayout({
         </div>
       </Card>
 
-      <nav className="flex flex-row items-center justify-center gap-5">
-        <Button asChild variant="outline" size="lg">
-          <Link href={`/@${user.username}/tweet/${tweet.tweetId}`}>
-            Replies
-          </Link>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link href={`/@${user.username}/tweet/${tweet.tweetId}/likes`}>
-            Likes
-          </Link>
-        </Button>
-      </nav>
+      <TweetPageLinks user={user} tweet={tweet} />
 
       {children}
     </>
