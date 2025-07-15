@@ -2,40 +2,37 @@
 
 import { z } from "zod";
 
+import { getCurrentUser } from "@/server/auth/user";
+import { MUTATIONS } from "@/server/db/queries";
 import { createLikeSchema, deleteLikeSchema } from "@/server/likes/schema";
-import { getCurrentUser } from "../auth/user";
-import { MUTATIONS } from "../db/queries";
-import { likesTable } from "../db/schema";
+import { redirect } from "next/navigation";
 
 export async function createLikeAction(
   unsafeData: z.infer<typeof createLikeSchema>,
-): Promise<
-  | { success: false; message: string }
-  | { success: true; like: typeof likesTable.$inferSelect }
-> {
+) {
   const { success, data } = createLikeSchema.safeParse(unsafeData);
-  if (!success) return { success: false, message: "Invalid data." };
+  if (!success) return "Invalid data.";
 
   const user = await getCurrentUser();
-  if (!user) return { success: false, message: "Not logged in." };
+  if (!user) return "Not logged in.";
 
   const like = await MUTATIONS.createLike({ ...data, userId: user.userId });
-  if (!like) return { success: false, message: "Unable to create like." };
+  if (!like) return "Unable to create like.";
 
-  return { success: true, like };
+  redirect(`/@${user.username}/tweet/${like.tweetId}`);
 }
 
 export async function deleteLikeAction(
   unsafeData: z.infer<typeof deleteLikeSchema>,
 ) {
   const { success, data } = deleteLikeSchema.safeParse(unsafeData);
-  if (!success) return { success: false, message: "Invalid data." };
+  if (!success) return "Invalid data.";
 
   const user = await getCurrentUser();
-  if (!user) return { success: false, message: "Not logged in." };
+  if (!user) return "Not logged in.";
 
   const like = await MUTATIONS.deleteLike(user.userId, data.tweetId);
-  if (!like) return { success: false, message: "Unable to delete like." };
+  if (!like) return "Unable to delete like.";
 
-  return { success: true, like };
+  redirect(`/@${user.username}/tweet/${like.tweetId}`);
 }
