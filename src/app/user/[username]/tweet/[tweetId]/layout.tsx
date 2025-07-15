@@ -2,6 +2,7 @@ import { BadgeCheck, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CreateTweetCard } from "@/components/create-tweet-card";
 import { LikeButtonForm } from "@/components/forms/like-button-form";
 import { TweetCard } from "@/components/tweet-card";
 import { TweetPageLinks } from "@/components/tweet-page-links";
@@ -92,6 +93,14 @@ export default async function UserTweetLayout({
           </div>
         </div>
       </Card>
+
+      {currentUser && (
+        <CreateTweetCard
+          user={currentUser}
+          parentId={tweet.tweetId}
+          placeholder={`Reply to @${user.username}`}
+        />
+      )}
 
       <TweetPageLinks user={user} tweet={tweet} />
 
