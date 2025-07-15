@@ -16,10 +16,13 @@ export async function createLikeAction(
   const user = await getCurrentUser();
   if (!user) return "Not logged in.";
 
-  const like = await MUTATIONS.createLike({ ...data, userId: user.userId });
+  const like = await MUTATIONS.createLike({
+    userId: user.userId,
+    tweetId: data.tweetId,
+  });
   if (!like) return "Unable to create like.";
 
-  redirect(`/@${user.username}/tweet/${like.tweetId}`);
+  redirect(data.redirect || `/@${user.username}/tweet/${like.tweetId}`);
 }
 
 export async function deleteLikeAction(
@@ -34,5 +37,5 @@ export async function deleteLikeAction(
   const like = await MUTATIONS.deleteLike(user.userId, data.tweetId);
   if (!like) return "Unable to delete like.";
 
-  redirect(`/@${user.username}/tweet/${like.tweetId}`);
+  redirect(data.redirect || `/@${user.username}/tweet/${like.tweetId}`);
 }

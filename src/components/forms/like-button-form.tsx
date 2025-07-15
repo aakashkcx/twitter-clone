@@ -1,6 +1,7 @@
 "use client";
 
 import { Heart } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { createLikeAction, deleteLikeAction } from "@/server/likes/actions";
@@ -16,9 +17,11 @@ export function LikeButtonForm({
   liked: boolean;
   iconClassName?: string;
 } & React.HTMLAttributes<HTMLButtonElement>) {
+  const pathname = usePathname();
+
   async function onLike() {
     const action = liked ? deleteLikeAction : createLikeAction;
-    const error = await action({ tweetId });
+    const error = await action({ tweetId, redirect: pathname });
     console.log(error);
   }
 
