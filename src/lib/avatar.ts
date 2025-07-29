@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash } from "crypto";
 
 const GRAVATAR_AVATAR = "https://www.gravatar.com/avatar/";
 const GRAVATAR_AVATAR_PARAMS = "?d=404&s=160";
